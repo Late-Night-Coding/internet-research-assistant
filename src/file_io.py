@@ -1,4 +1,3 @@
-import glob
 import os
 
 output_folder = os.path.join(os.pardir, 'outputs')

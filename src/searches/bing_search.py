@@ -1,12 +1,12 @@
 import requests
 import json
-from IPython.display import HTML
 import os
+import src.file_io as file_io
 
 key1 = "4984af63239647179cc7489cfdf1771f"
 key2 = "7459a42c4b0a493ba17d74296af2d236"
 search_url = "https://api.bing.microsoft.com/v7.0/search"
-search_term = "dogs"
+search_term = "cats"
 
 headers = {"Ocp-Apim-Subscription-Key": key1}
 params = {"q": search_term, "textDecorations": True, "textFormat": "HTML"}
@@ -16,5 +16,5 @@ search_results = response.json()
 
 search_results = json.dumps(search_results, indent=2)
 
-with open(os.path.join(os.path.dirname(__file__), "../outputs/bing_results.json"), "w") as file:
+with file_io.write_file("test.json") as file:
     file.write(search_results)
