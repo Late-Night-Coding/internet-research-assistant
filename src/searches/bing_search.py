@@ -3,8 +3,8 @@ import json
 import os
 import src.file_io as file_io
 
-key1 = "4984af63239647179cc7489cfdf1771f"
-key2 = "7459a42c4b0a493ba17d74296af2d236"
+key1 = "a545213acdb4407c9f3fffc6097f9b67"
+key2 = "ebf8de5d4f9240ea9911a24d2c25d9d9"
 search_url = "https://api.bing.microsoft.com/v7.0/search"
 search_term = "cats"
 
