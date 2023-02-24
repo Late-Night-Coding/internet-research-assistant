@@ -28,6 +28,10 @@ poetry install
 poetry shell    # Enter the project's virtual environment
 python src/searches/google_search.py
 ```
+If there are dependency errors try the command bellow:
+```bash
+poetry run python src/searches/google_search.py
+```
 
 ### VS Code Setup
 After completing the above, you can get this project working in VS Code by following these stesps:
