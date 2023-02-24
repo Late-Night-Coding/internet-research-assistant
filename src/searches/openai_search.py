@@ -2,7 +2,6 @@ import os
 import openai
 
 
-
 class OpenAI:
     def __init__(self):
         self.key = "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"
@@ -11,5 +10,5 @@ class OpenAI:
 
     def chat(self, prompt):
         return openai.Completion.create(model="text-davinci-003",
-                                            prompt="how would i import a file in a separate directory in python",
-                                            temperature=0, max_tokens=3000)
+                                        prompt=prompt,
+                                        temperature=0, max_tokens=3000)
