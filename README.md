@@ -25,7 +25,7 @@ poetry install
 
 4. Test it out
 ```bash
-poetry shell    # Enter the project's virtual environment
+poetry shell    # <- THIS IS IMPORTANT: Enter the project's virtual environment first
 python src/searches/google_search.py
 ```
 If there are dependency errors try the command bellow:
@@ -41,3 +41,11 @@ After completing the above, you can get this project working in VS Code by follo
 3. Press `Ctrl+Shift+P` and enter the command `Python: Select Interpreter`
 4. Select  `Python 3.x.x (internet-research-assistant-xxxxxx)`
 5. Open a python file to run. Go into the `Run and Debug` menu, then press `Python: Current file`
+
+## Running the web server
+To launch the web server locally, type these commands in the project directory:
+```bash
+poetry install          # to ensure packages are up to date
+poetry run webserver
+```
+Then you can open up http://localhost:8080 to see it up and running

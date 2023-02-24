@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Internet Research Assistant{% endblock %}
+{% block body %}
+<!-- Homepage -->
+<div class="centerScreen">
+    <div class="homepageSearch">
+        <h1>Internet Research Assistant</h1>
+
+        <!-- Render the searchbar with an empty query -->
+        {% with query="" %}
+            {% include "searchbar.html" %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}
