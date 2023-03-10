@@ -39,6 +39,9 @@ After completing the above, you can get this project working in VS Code by follo
 4. Select  `Python 3.x.x (internet-research-assistant-xxxxxx)`
 5. Open a python file to run. Go into the `Run and Debug` menu, then press `Python: Current file`
 
+### Pycharm setup
+[These instructions might be useful](https://www.jetbrains.com/help/pycharm/poetry.html).
+
 ## Running the web server
 To launch the web server locally, type these commands in the project directory:
 ```bash
