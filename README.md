@@ -3,7 +3,7 @@
 ## Setup
 Project dependencies in this branch are managed using [poetry](https://python-poetry.org/docs/). Complete setup instructions are given below.
 
-Before getting started, make sure a recent version of python and pip are installed on your system. Then run these commands:
+Before getting started, make sure a recent version of python (3.9+) and pip are installed on your system. Then run these commands:
 
 1. Clone & open this github repo:
 ```bash
@@ -13,10 +13,7 @@ git clone https://github.com/ptrpham1234/internet-research-assistant.git
 cd internet-research-assistant
 ```
 
-2. Install poetry
-```bash
-pip install poetry
-```
+2. Install poetry. [You can follow these installation instructions](https://python-poetry.org/docs/#installation)
 
 3. Install packages
 ```bash
