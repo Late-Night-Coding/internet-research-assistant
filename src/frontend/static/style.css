@@ -57,6 +57,38 @@ body{
         border-top: solid 1px #000;
         margin-top: 15px;
     }
-    
 
+    .searchResult{
+        background-color: #F1F1F1;
+        border: 1px solid black;
+        padding: 10px 20px 20px 20px;
+    }
+
+    .linksList{
+        list-style-type: none;
+    }
+
+    .linksList_link{
+        display: inline-block;
+        width: 90%;
+        padding: 10px 10px 10px 10px;
+        margin: 10px 0px 10px 0px; 
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .linksList_url{
+        display: inline-block;
+        width: 80%;
+    }
+
+    .linksList_type{
+        display: inline-block;
+        width: 10%;
+        text-align: center;
+        padding: 3px 3px 3px 3px;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    
     
