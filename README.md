@@ -3,7 +3,7 @@
 ## Setup
 Project dependencies in this branch are managed using [poetry](https://python-poetry.org/docs/). Complete setup instructions are given below.
 
-Before getting started, make sure a recent version of python and pip are installed on your system. Then run these commands:
+Before getting started, make sure a recent version of python (3.9+) and pip are installed on your system. Then run these commands:
 
 1. Clone & open this github repo:
 ```bash
@@ -13,10 +13,7 @@ git clone https://github.com/ptrpham1234/internet-research-assistant.git
 cd internet-research-assistant
 ```
 
-2. Install poetry
-```bash
-pip install poetry
-```
+2. Install poetry. [You can follow these installation instructions](https://python-poetry.org/docs/#installation)
 
 3. Install packages
 ```bash
@@ -25,7 +22,7 @@ poetry install
 
 4. Test it out
 ```bash
-poetry shell    # Enter the project's virtual environment
+poetry shell    # <- THIS IS IMPORTANT: Enter the project's virtual environment first
 python src/searches/google_search.py
 ```
 If there are dependency errors try the command bellow:
@@ -41,3 +38,14 @@ After completing the above, you can get this project working in VS Code by follo
 3. Press `Ctrl+Shift+P` and enter the command `Python: Select Interpreter`
 4. Select  `Python 3.x.x (internet-research-assistant-xxxxxx)`
 5. Open a python file to run. Go into the `Run and Debug` menu, then press `Python: Current file`
+
+### Pycharm setup
+[These instructions might be useful](https://www.jetbrains.com/help/pycharm/poetry.html).
+
+## Running the web server
+To launch the web server locally, type these commands in the project directory:
+```bash
+poetry install          # to ensure packages are up to date
+poetry run webserver
+```
+Then you can open up http://localhost:8080 to see it up and running
