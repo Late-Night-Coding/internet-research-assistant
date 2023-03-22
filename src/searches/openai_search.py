@@ -12,3 +12,8 @@ class OpenAI:
         return openai.Completion.create(model="text-davinci-003",
                                         prompt=prompt,
                                         temperature=0, max_tokens=3000)
+
+
+# if __name__ == "__main__":
+#     x = OpenAI()
+#     print(x.chat("what are some related topics to the sentence 'dogs':"))
