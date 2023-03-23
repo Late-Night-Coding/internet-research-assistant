@@ -11,12 +11,27 @@
     <!-- Render each search result below it -->
     <div class="searchResults">
         {% for result in results: %}
+        <br>
         <div class="searchResult">
-            <h2>{{result.title}}</h2>
-            <p>{{result.text}}</p>
+            <h2>{{ result.title }}</h2>
+            <p>{{ result.description }}</p>
+            <h3>Links</h3>
+            <ul class="linksList">
+                {% for link in result.links %} 
+                <li>
+                    <span class="linksList_link" style="background-color: {{ link.link_color }}">
+                        <span class="linksList_url"><a href="{{ link.url }}" >{{ link.url }}</a></span>
+                        <span class="linksList_type">{{ link.link_type }}</span>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            <p style="text-align: center"><i class="fa fa-angle-down" style="font-size:24px"></i> (Up to 7 links)</p>
+            <h3>Reason for including</h3>
+            <p>{{ result.reason }}</p>  
         </div>
+        {% endfor %}
     </div>
-
-    {% endfor %}
+    
 </div>
 {% endblock %}
