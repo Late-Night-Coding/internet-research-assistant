@@ -21,7 +21,7 @@
             <div class="linksList">
                 {% for link in result.links %}
                 <a class="linksList_link"  href="{{ link.url }}" style="--link-hue: {{ link.link_hue }}">
-                    <span class="linksList_url">{{ link.url }}</span>
+                    <span class="linksList_url">{{ link.name }}</span>
                     <span class="linksList_type">{{ link.link_type }}</span>
                 </a>
                 {% endfor %}
