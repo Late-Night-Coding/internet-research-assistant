@@ -1,20 +1,91 @@
 body{
-    margin: 0px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 11pt;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    /* background: rgb(0, 0, 0);
+    background: -moz-linear-gradient(-45deg, rgb(102, 172, 162) 0%, rgba(65,103,168,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgb(37, 11, 39)), color-stop(100%, rgb(131, 177, 105)));
+    background: -webkit-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%); */
 }
 
-.searchbar{
+
+.searchbar {
     position: relative;
+  }
+  
+  .searchbar form {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.171);
 
-.searchbar>input[type='text']{
-    flex-grow: 1;
-    margin-right: 10px;
+    
+  }
+  
+  .searchbar input[type="text"] {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    color: #666;
+    width: 70%;
+    height: 25px;
+    background-color: transparent;
+    transition: width 0.4s ease-in-out;
+  }
+
+  .searchbar input[type="text"]::placeholder {
+    font-weight: lighter;
+    opacity: 0.5;
+    padding: 0;
+
 }
+  
+  .searchbar input[type="text"]:focus {
+    width: 400px;
+    padding: 10px 40px;
+    outline: none;
+  }
+
+  .searchbar form {
+    position: relative;
+    width: 500px;
+  }
+  
+  .searchbar button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .searchbar button:hover {
+    transform: scale(1.2);
+  }
+  
+  .fa-search {
+    font-size: 20px;
+    padding: 10px;
+    color: #666;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .searchbar input[type="text"]:focus ~ .fa-search {
+    color: #000;
+  }
 
 /* Homepage Styling */
 
@@ -24,12 +95,17 @@ body{
         position: relative;
         justify-content: center;
         align-items: center;
+        background-image: url(background.jpg);
     }
 
     .homepageSearch{
         display: flex;
         flex-direction: column;
         text-align: center;
+    }
+    
+    .homepageSearch h1 {
+      color: rgb(240, 233, 221);
     }
 
 
