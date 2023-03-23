@@ -9,10 +9,10 @@ def get_results(query):
             "title": "Sport",
             "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
             "links": [
-                {"url": "https://wikiexample1.com/", "link_color": "#D7CEC7", "link_type": "Wiki"},
-                {"url": "https://wikiexample2.com/", "link_color": "#D7CEC7", "link_type": "Wiki"},
-                {"url": "https://youtube.com/", "link_color": "#EDD1D1", "link_type": "Youtube"},
-                {"url": "https://otherexample.com/", "link_color": "#CAE4E7", "link_type": "Other"}
+                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other"}
             ],
             "reason": "This was the first item returned by google search" 
         },
@@ -20,10 +20,10 @@ def get_results(query):
             "title": "Pitching",
             "description": "Pitching is a fundamental aspect of baseball, and it's important to understand the different types of pitches that pitchers can throw in order to effectively analyze and appreciate the game.",
             "links": [
-                {"url": "https://wikiexample1.com/", "link_color": "#D7CEC7", "link_type": "Wiki"},
-                {"url": "https://wikiexample2.com/", "link_color": "#D7CEC7", "link_type": "Wiki"},
-                {"url": "https://youtube.com/", "link_color": "#EDD1D1", "link_type": "Youtube"},
-                {"url": "https://otherexample.com/", "link_color": "#CAE4E7", "link_type": "Other"}
+                {"url": "https://wikiexample1.com/", "link_hue": "28", "link_type": "Wiki"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other"}
             ],
             "reason": "This was the first item returned by bing search" 
         },
@@ -31,9 +31,9 @@ def get_results(query):
             "title": "MLB",
             "description": "Major League Baseball (MLB) is a professional baseball organization and the oldest major professional sports league in the world.",
             "links": [
-                {"url": "https://wikiexample1.com/", "link_color": "#D7CEC7", "link_type": "Wiki"},
-                {"url": "https://youtube.com/", "link_color": "#EDD1D1", "link_type": "Youtube"},
-                {"url": "https://otherexample.com/", "link_color": "#CAE4E7", "link_type": "Other"}
+                {"url": "https://wikiexample1.com/", "link_hue": "28", "link_type": "Wiki"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other"}
             ],
             "reason": "This was the second item returned by google search" 
         },
