@@ -18,7 +18,6 @@ body{
   
   .searchbar form {
     display: flex;
-    justify-content: center;
     align-items: center;
     position: relative;
     z-index: 1;
@@ -26,33 +25,32 @@ body{
     border-radius: 30px;
     overflow: hidden;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.171);
-
-    
   }
   
   .searchbar input[type="text"] {
     padding: 10px 10px;
+    padding-left: 40px;
     border: none;
+    flex-grow: 1;
     border-radius: 30px;
     font-size: 16px;
     color: #666;
     width: 70%;
     height: 25px;
     background-color: transparent;
-    transition: width 0.4s ease-in-out;
+    transition: padding-left 0.4s ease-in-out;
   }
 
   .searchbar input[type="text"]::placeholder {
     font-weight: lighter;
     opacity: 0.5;
     padding: 0;
-
-}
+  }
   
   .searchbar input[type="text"]:focus {
-    width: 400px;
-    padding: 10px 40px;
+    padding-left: 20px;
     outline: none;
+    position: relative;
   }
 
   .searchbar form {
@@ -129,42 +127,71 @@ body{
         }
     }
 
+    .contentScreen .searchbar>form{
+      width: 100%;
+    }
+
     .searchResults{
-        border-top: solid 1px #000;
         margin-top: 15px;
     }
 
     .searchResult{
-        background-color: #F1F1F1;
-        border: 1px solid black;
+        background-color: #fafafa;
+        border-radius: 30px;
+        box-shadow: #ccc 1px 1px 5px;
         padding: 10px 20px 20px 20px;
     }
 
     .linksList{
-        list-style-type: none;
+        padding-left: 0px;
+        font-size: 10pt;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
     }
 
     .linksList_link{
-        display: inline-block;
-        width: 90%;
-        padding: 10px 10px 10px 10px;
-        margin: 10px 0px 10px 0px; 
-        border: 1px solid black;
-        border-radius: 10px;
+      box-shadow: #ccc 0px 0px 2px;
+      padding: 2px 5px;
+      border-radius: 2px;
+      margin: 3px 0px;
+      text-decoration: none;
+      background-color: hsl(var(--link-hue), 100%, 90%);
+    }
+
+    .linksList_link:hover{
+      font-weight: bold;
     }
 
     .linksList_url{
-        display: inline-block;
-        width: 80%;
+      margin-right: 8px;
+      color: hsl(var(--link-hue), 50%, 10%);
     }
 
     .linksList_type{
         display: inline-block;
-        width: 10%;
         text-align: center;
-        padding: 3px 3px 3px 3px;
-        border: 1px solid black;
-        border-radius: 10px;
+        padding: 0px 2px;
+        border-radius: 3px;
+        color: hsl(var(--link-hue), 50%, 20%);
+        background-color: hsl(var(--link-hue), 100%, 80%);
+        font-weight: bold;
+        font-size: 9pt;
+    }
+
+    h3{
+      margin-bottom: 3px;
+      font-size: 11pt;
+    }
+
+
+    .searchResult>p{
+      margin: 0px;
+      font-size: 11pt;
+      background-color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: #ccc 0px 0px 2px;
     }
     
     
