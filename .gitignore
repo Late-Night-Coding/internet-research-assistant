@@ -1,3 +1,6 @@
+# I think poetry.lock shouldn't be tracked by git
+poetry.lock
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
