@@ -1,12 +1,17 @@
+import asyncio
 from searches.openai_search import OpenAI
-from searches.google_search import Google
+import searches.google_search as google
+from searches.bing_search import Bing
 import flask
 
 
 class SearchController:
     def __init__(self):
-        self.openai = OpenAI()
-        response = self.openai.chat('find related topics for this phrase: "linearly independent vectors"')
+        self.bingSearcher = Bing()
+        response = self.bingSearcher.search("orthogonal vectors")
+        print(response)
+
+        response = asyncio.run(google.search('orthogonal vectors', 10, 10, 10))
         print(response)
 
 
