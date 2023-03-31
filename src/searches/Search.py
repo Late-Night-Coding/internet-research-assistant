@@ -6,7 +6,6 @@ class Search:
 
     def __init__(self):
         self.bing_searcher = bing_search.Bing()
-        self.google_searcher = google_search.Google()
         self.openai_searcher = openai_search.OpenAI()
 
         self.bing_search_result = list()

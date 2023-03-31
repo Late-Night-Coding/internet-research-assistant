@@ -17,7 +17,7 @@ class URLCategory:
     def __init__(self, name: str, color=None):
         self.name = name
         if color is None:
-            self.color = generate_pastel_color()
+            self.color = random.randint(0, 359)
         else:
             self.color = color
 
