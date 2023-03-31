@@ -6,12 +6,39 @@ def get_results(query):
     # TODO: This is a dummy function. Implement it later
     return [
         {
-            "title": "Result 1",
-            "text": f"This is the first result for {query}"
+            "title": "Sport",
+            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
+            "links": [
+                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+            ],
+            "reason": "This was the first item returned by google search" 
         },
         {
-            "title": "Result 2",
-            "text": f"This is the second result for {query}"
+            "title": "Pitching",
+            "description": "Pitching is a fundamental aspect of baseball, and it's important to understand the different types of pitches that pitchers can throw in order to effectively analyze and appreciate the game.",
+            "links": [
+                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+
+            ],
+            "reason": "This was the first item returned by bing search" 
+        },
+        {
+            "title": "MLB",
+            "description": "Major League Baseball (MLB) is a professional baseball organization and the oldest major professional sports league in the world.",
+            "links": [
+                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+
+            ],
+            "reason": "This was the second item returned by google search" 
         },
     ]
 
