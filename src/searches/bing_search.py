@@ -13,10 +13,13 @@ class Bing:
         self.search_url = "https://api.bing.microsoft.com/v7.0/search"
         self.headers = {"Ocp-Apim-Subscription-Key": self.key1}
 
-    def search(self, search_term):
-        params = {"q": search_term, "textDecorations": True, "textFormat": "HTML"}
+    def search(self, search_term, count=10):
+        params = {"q": search_term, "textDecorations": True, "textFormat": "HTML", "count": count, "responseFilter": "Webpages"}
 
         response = requests.get(self.search_url, headers=self.headers, params=params)
         response.raise_for_status()
         search_results = response.json()
-        return json.dumps(search_results, indent=2)
+
+        search_results = [page["url"] for page in search_results["webPages"]["value"]]
+
+        return search_results
