@@ -6,7 +6,8 @@ import re
 import spacy
 
 stopWords = set(stopwords.words('english'))
-
+MIN_WORD_LEN = 3
+MAX_WORD_LEN = 20
 
 class Input_Parser:
 
@@ -39,7 +40,7 @@ class Input_Parser:
     def __remove_stop_words(self, tokens):
         result = list()
         for word in tokens:
-            if word not in stopWords:
+            if word not in stopWords and MIN_WORD_LEN <= len(word) <= MAX_WORD_LEN:
                 result.append(word)
         return result
 
