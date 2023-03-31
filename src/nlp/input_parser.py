@@ -94,8 +94,8 @@ class Input_Parser:
 
 
 if __name__ == "__main__":
-    sent_short = "what are the different types of dog breeds"
+    sent_short = "what are the rules of baseball "
     sent_long = "Experiments have been carried out for single crystalline silicon panels. Results are discussed and the increase in efficiency is investigated and understood. Operating problems are analyzed and the advantages of using underwater solar panels are pointed out."
 
-    sent = sent_long
+    sent = sent_short
     main = Input_Parser(sent)
