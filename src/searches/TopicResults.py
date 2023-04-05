@@ -7,7 +7,7 @@ class TopicResults:
         self.topicDescription = topicDescription
         self.URLlist = list()
         self.wikiCat = URLCategory("Wiki")
-        self.youtubeCat = URLCategory("Youtube", "#FF6961")
+        self.youtubeCat = URLCategory("Youtube", "1")
         self.socialMedia = URLCategory("Social Media")
         self.otherCat = URLCategory("Other")
 
@@ -59,12 +59,12 @@ class TopicResults:
     #############################################################################################################
     def __linkClassifier__(self, link: str):
         link = link.lower().split(".")
-        for part in link:
-            if "wiki" or "fandom" in part:
+        for part in link[:-1]:
+            if ("wiki" in part or "fandom" in part) or ("britannica" in part or "pedia" in part):
                 return self.wikiCat
             elif "youtube" in part:
                 return self.youtubeCat
-            elif "twitter" or "facebook" or "instagram" in part:
+            elif ("twitter" in part) or ("facebook" in part) or ("instagram" in part):
                 return self.socialMedia
             else:
                 return self.otherCat
