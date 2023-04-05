@@ -22,6 +22,9 @@ def basic_summarize(content: str, keywords: list[str]=[], max_summary_length: st
         if MIN_SENT_LEN < len(sentence) < MAX_SENT_LEN
     ]
 
+    if not sentences:
+        return ""
+
     # find common words
     word_counter = nltk.probability.FreqDist((
         word

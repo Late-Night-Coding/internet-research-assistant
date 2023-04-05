@@ -27,8 +27,6 @@ class Input_Parser:
             self.tokens = None
             self.token_tags = None
 
-        print(self.tokens)
-
     #############################################################################################################
     #  * Function:            __remove_stop_words
     #  * Author:              Peter Pham (pxp180041)
@@ -83,19 +81,19 @@ class Input_Parser:
     #############################################################################################################
     def parse(self, sentence):
         # sentences = nltk.sent_tokenize(sent)
-        sentences_tokens = self.__tokenize(sentence)
-        sentences_tokens = self.__remove_stop_words(sentences_tokens)
-        sentences_tokens = self.__lemmatize(sentences_tokens)
-        sentence_tags = nltk.pos_tag(sentences_tokens)
-
-        fdis = nltk.probability.FreqDist(sentences_tokens)
-        print(fdis.most_common(5))
-        return sentences_tokens, sentence_tags
+        tokens = self.__tokenize(sentence)
+        tokens = self.__remove_stop_words(tokens)
+        tokens = self.__lemmatize(tokens)
+        sentence_tags = nltk.pos_tag(tokens)
+        return tokens, sentence_tags
 
 
 if __name__ == "__main__":
-    sent_short = "what are the rules of baseball "
+    sent_short = "what is the capital of the United States?"
     sent_long = "Experiments have been carried out for single crystalline silicon panels. Results are discussed and the increase in efficiency is investigated and understood. Operating problems are analyzed and the advantages of using underwater solar panels are pointed out."
 
     sent = sent_short
-    main = Input_Parser(sent)
+    sentences_tokens, tags = Input_Parser().parse(sent_short)
+
+    print(sentences_tokens)
+    print(tags)
