@@ -4,7 +4,7 @@ import openai
 
 class OpenAI:
     def __init__(self):
-        self.key = "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"
+        self.key = "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"
         openai.organization = "org-PC7IkgKZEFh6bCosQAGwPx02"
         openai.api_key = self.key
 
