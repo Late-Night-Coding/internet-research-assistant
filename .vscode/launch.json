@@ -10,6 +10,16 @@
             "request": "launch",
             "program": "${file}",
             "justMyCode": true
+        },
+        {
+            "name": "Pytest: Current File",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "${file}"
+            ],
+            "justMyCode": true
         }
     ]
 }
