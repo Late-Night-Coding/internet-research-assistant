@@ -15,13 +15,14 @@ function performSearch(query) {
 let menuShown = false;
 const scopes = document.querySelectorAll(".searchResult");
 var menu = document.querySelector(".menu");
+let selectedText = "";
 
 // Display menu when user selects text in a search result
 for(s of scopes){
     s.addEventListener("mouseup", () => {
 
         let selection = document.getSelection();
-        let selectedText = selection.toString();
+        selectedText = selection.toString();
 
         // if text is selected, validate the selection and show the menu
         if (selectedText.length > 0) {
@@ -46,8 +47,7 @@ for(s of scopes){
 // perform search when button is pressed
 const lookupbtn = document.getElementById("lookup-btn");
 document.addEventListener("click", function(event){
-    let selection = document.getSelection();
-    let selectedText = selection.toString();
+
     if(event.target == lookupbtn){
         performSearch(currInputQuery + ' ' + selectedText);
         menu.style.display = "none";
