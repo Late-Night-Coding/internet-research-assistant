@@ -4,7 +4,8 @@ app = Flask(__name__)
 
 def get_results(query):
     # TODO: This is a dummy function. Implement it later
-    return [
+    if(query == ""):
+        return [
         {
             "title": "Sport",
             "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
@@ -40,7 +41,24 @@ def get_results(query):
             ],
             "reason": "This was the second item returned by google search" 
         },
-    ]
+        ]
+    else: 
+        return [
+        {
+            "title": "Sport",
+            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
+            "links": [
+                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
+                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
+                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
+                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+            ],
+            "reason": "This was the first item returned by google search" 
+        },
+        ]
+
+    
+    
 
 
 @app.route('/')
