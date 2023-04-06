@@ -1,6 +1,5 @@
 import pytest
-
-from nlp.basic_summarizer import basic_summarize
+from nlp.basic_summarizer import __basic_summarize__
 
 @pytest.mark.parametrize("kwargs,expected_summary", [
     ({
@@ -31,4 +30,4 @@ from nlp.basic_summarizer import basic_summarize
 
 ])
 def test_summarize(kwargs, expected_summary):
-    assert basic_summarize(**kwargs, min_sent_len=0) == expected_summary
+    assert __basic_summarize__(**kwargs, min_sent_len=0) == expected_summary

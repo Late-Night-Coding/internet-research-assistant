@@ -30,4 +30,7 @@ class Google:
 
     def __search(self, q, num=10, start=0) -> list:
         res = self.service.cse().list(q=q, cx=self.cx, num=num, start=start).execute()
-        return [item["link"] for item in res["items"]]
+        if "items" in res:
+            return [item["link"] for item in res["items"]]
+        else:
+            return []
