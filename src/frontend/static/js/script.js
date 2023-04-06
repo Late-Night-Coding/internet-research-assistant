@@ -43,6 +43,17 @@ for(s of scopes){
     });
 }
 
+// perform search when button is pressed
+const lookupbtn = document.getElementById("lookup-btn");
+document.addEventListener("click", function(event){
+    let selection = document.getSelection();
+    let selectedText = selection.toString();
+    if(event.target == lookupbtn){
+        performSearch(currInputQuery + ' ' + selectedText);
+        menu.style.display = "none";
+    } 
+});
+
 // When the user clicks to clear the selection, hide the menu
 window.addEventListener("mouseup", (e) => {
 
