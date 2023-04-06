@@ -7,10 +7,13 @@ from searches.webpage_downloader import download_page
 from searches.bing_search import Bing
 from searches.openai_search import OpenAI
 import searches.google_search as google_search
+import os
 
 
 def main():
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # only set event loop policy for windows
+    if os.name == 'nt':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     bing_searcher = Bing()
     query = "pokemon types"
     results = asyncio.run(bing_searcher.search(query, count=20))
