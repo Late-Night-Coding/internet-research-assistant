@@ -2,7 +2,7 @@
 
 import asyncio
 
-from nlp.basic_summarizer import basic_summarize
+from nlp.basic_summarizer import __basic_summarize__
 from searches.webpage_downloader import download_page
 from searches.bing_search import Bing
 from searches.openai_search import OpenAI
@@ -19,19 +19,19 @@ def main():
 
     print(results)
 
-    links = list()
+    wikiLinks = list()
 
     for item in results:
         if isWiki(item):
-            links.append(item)
+            wikiLinks.append(item)
 
-    print(links)
+    print(wikiLinks)
     total_summary = ""
 
-    for url in links:
+    for url in wikiLinks:
         print(url)
         page_content = asyncio.run(download_page(url))  # important: note that the call is async
-        summary = basic_summarize(page_content)
+        summary = __basic_summarize__(page_content)
         print(summary)
         total_summary = total_summary + summary
 
