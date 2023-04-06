@@ -5,7 +5,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 import re
 import spacy
 
-stopWords = set(stopwords.words('english'))
+#stopWords = set(stopwords.words('english'))
 MIN_WORD_LEN = 3
 MAX_WORD_LEN = 20
 
@@ -87,6 +87,11 @@ class Input_Parser:
         sentence_tags = nltk.pos_tag(tokens)
         return tokens, sentence_tags
 
+    #added another parseinput method for basing off the sequence diagram
+    def parseInput(self, query, history):
+        keywordList = []
+        keywordList.append(query)
+        return keywordList
 
 if __name__ == "__main__":
     sent_short = "what is the capital of the United States?"
