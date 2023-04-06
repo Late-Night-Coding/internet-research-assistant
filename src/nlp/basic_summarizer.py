@@ -1,13 +1,29 @@
 import nltk
+import asyncio
 from collections import defaultdict
 from nlp.input_parser import Input_Parser
-
+from searches.openai_search import OpenAI
+from searches.webpage_downloader import download_page
 
 MIN_SENT_LEN = 30
 MAX_SENT_LEN = 250
 TOP_N_WORDS = 50
 
-def basic_summarize(content: str, keywords: list[str]=[], max_summary_length: str = 1000):
+
+#############################################################################################################
+#  * Function:            __basic_summarize__
+#  * Author:              Blake
+#  * Date Started:        03/28/2023
+
+#  * Description:
+#  * Returns a summary of the contents from a webpage.
+
+#  * Parameters:
+#  * content                str             contents from a webpage
+#  * keywords               list[str]       list of keywords that will take priority when summarizing
+#  * max_summary_length     int             max length of the summary to be returned
+#############################################################################################################
+def __basic_summarize__(content: str, keywords: list[str] = [], max_summary_length: int = 1000):
     """Given the text content of a webpage, return a summary of it that doesn't exceed max_summary_length characters.
     If keywords is not empty, sentences containing keywords will be more likely to be included"""
 
@@ -37,7 +53,7 @@ def basic_summarize(content: str, keywords: list[str]=[], max_summary_length: st
     word_scores = defaultdict(lambda: 0)
     for (top_word, word_freq) in word_counter.most_common(TOP_N_WORDS):
         word_scores[top_word] = word_freq / maximum_frequency
-    
+
     # calculate sentence scores, in range [0, inf)
     sentence_scores = [
         # sum over the word scores in the sentence to get its score
@@ -64,11 +80,66 @@ def basic_summarize(content: str, keywords: list[str]=[], max_summary_length: st
             summary_length += sentence_length
         else:
             break
-    
+
     # construct the summary by joining the top sentences in the same order they appear
     summary = " ".join((
         sentences[sentence_index]
         for sentence_index in sorted(summary_sentence_index_set)
     ))
-    
+
     return summary
+
+
+#############################################################################################################
+#  * Function:            summarizeTopic
+#  * Author:              Peter Pham (pxp180041)
+#  * Date Started:        03/28/2023
+
+#  * Description:
+#  * Returns a summary/description of a topic given the links. It will only summarize wiki links due to length
+#  * and api limitations. the links should be the same or of similar topic or the summary not be focused.
+
+#  * Parameters:
+#  * links              list()              list of all the links to summarize
+#############################################################################################################
+def summarizeTopic(links, keywords: list = None) -> str:
+    wikiLinks = set()
+
+    # filters everything but wiki links and adds them to a list
+    for item in links:
+        if __isWiki__(item):
+            wikiLinks.add(item)
+
+    total_summary = ""
+
+    # summarizes each link and consolidate them together
+    for url in wikiLinks:
+        page_content = asyncio.run(download_page(url))  # important: note that the call is async
+        summary = __basic_summarize__(page_content, keywords)
+        total_summary = total_summary + summary
+
+    openai = OpenAI()
+    response = asyncio.run(openai.summarize(total_summary))
+
+    return response
+
+
+#############################################################################################################
+#  * Function:            __isWiki__
+#  * Author:              Peter Pham (pxp180041)
+#  * Date Started:        04/05/2023
+
+#  * Description:
+#  * Returns a bool value if the link provided is a wiki.
+#  *
+
+#  * Parameters:
+#  * link               list()              link to analyze
+#############################################################################################################
+def __isWiki__(link):
+    link = link.lower().split(".")
+    for part in link[:-1]:
+        if ("wiki" in part or "fandom" in part) or ("britannica" in part or "pedia" in part):
+            return True
+
+    return False
