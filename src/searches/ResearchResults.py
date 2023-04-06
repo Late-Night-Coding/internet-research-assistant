@@ -1,4 +1,5 @@
-from TopicResults import TopicResults
+from searches.TopicResults import TopicResults
+
 
 class ResearchResults:
     def __init__(self):

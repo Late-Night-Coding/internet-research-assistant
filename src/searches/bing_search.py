@@ -15,6 +15,9 @@ class Bing:
                 response.raise_for_status()
                 search_results = await response.json()
 
-        search_results = [page["url"] for page in search_results["webPages"]["value"]]
+        if "webPages" in search_results:
+            search_results = [page["url"] for page in search_results["webPages"]["value"]]
+        else:
+            search_results = []
 
         return search_results

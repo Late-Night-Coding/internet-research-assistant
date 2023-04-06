@@ -5,11 +5,6 @@ from nlp.input_parser import Input_Parser
 from searches.openai_search import OpenAI
 from searches.webpage_downloader import download_page
 
-MIN_SENT_LEN = 30
-MAX_SENT_LEN = 250
-TOP_N_WORDS = 50
-
-
 #############################################################################################################
 #  * Function:            __basic_summarize__
 #  * Author:              Blake
@@ -23,7 +18,13 @@ TOP_N_WORDS = 50
 #  * keywords               list[str]       list of keywords that will take priority when summarizing
 #  * max_summary_length     int             max length of the summary to be returned
 #############################################################################################################
-def __basic_summarize__(content: str, keywords: list[str] = [], max_summary_length: int = 1000):
+def __basic_summarize__(content: str,
+                    keywords: list[str]=[],
+                    max_summary_length: str = 1000,
+                    min_sent_len = 30,
+                    max_sent_len = 250,
+                    top_n_words = 50
+                    ):
     """Given the text content of a webpage, return a summary of it that doesn't exceed max_summary_length characters.
     If keywords is not empty, sentences containing keywords will be more likely to be included"""
 
@@ -35,10 +36,10 @@ def __basic_summarize__(content: str, keywords: list[str] = [], max_summary_leng
     # filter out sentences that are too big or too small
     sentences = [
         sentence for sentence in sentences
-        if MIN_SENT_LEN < len(sentence) < MAX_SENT_LEN
+        if min_sent_len < len(sentence) < max_sent_len
     ]
 
-    if not sentences:
+    if len(sentences) == 0:
         return ""
 
     # find common words
@@ -51,7 +52,7 @@ def __basic_summarize__(content: str, keywords: list[str] = [], max_summary_leng
     # calculate word scores, in range [0, 1]
     maximum_frequency = word_counter.most_common(1)[0][1]
     word_scores = defaultdict(lambda: 0)
-    for (top_word, word_freq) in word_counter.most_common(TOP_N_WORDS):
+    for (top_word, word_freq) in word_counter.most_common(top_n_words):
         word_scores[top_word] = word_freq / maximum_frequency
 
     # calculate sentence scores, in range [0, inf)
