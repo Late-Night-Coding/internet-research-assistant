@@ -1,13 +1,13 @@
 # This was written before any test frameworks were added. Feel free to modify it to incorporate a framework
 
 import asyncio
-
-from nlp.basic_summarizer import basic_summarize
-from searches.webpage_downloader import download_page
-from searches.bing_search import Bing
-from searches.openai_search import OpenAI
-import searches.google_search as google_search
 import os
+from nlp.basic_summarizer import basic_summarize
+from openai_api import OpenAI
+from web_search.bing_search import Bing
+from web_search.google_search import Google
+from web_search.webpage_downloader import download_page
+
 
 
 def main():
@@ -15,23 +15,24 @@ def main():
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     bing_searcher = Bing()
+    google_search = Google()
     query = "pokemon types"
     results = asyncio.run(bing_searcher.search(query, count=20))
-    result_google = asyncio.run(google_search.search(query, 20, 20, 20))
+    result_google = asyncio.run(google_search.search(query, count=20))
     results.extend(result_google)
 
     print(results)
 
-    links = list()
+    wikiLinks = list()
 
     for item in results:
         if isWiki(item):
-            links.append(item)
+            wikiLinks.append(item)
 
-    print(links)
+    print(wikiLinks)
     total_summary = ""
 
-    for url in links:
+    for url in wikiLinks:
         print(url)
         page_content = asyncio.run(download_page(url))  # important: note that the call is async
         summary = basic_summarize(page_content)

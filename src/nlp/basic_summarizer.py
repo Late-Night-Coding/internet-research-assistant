@@ -1,8 +1,21 @@
 import nltk
+import asyncio
 from collections import defaultdict
-from nlp.input_parser import Input_Parser
+from nlp.input_parser import InputParser
 
+#############################################################################################################
+#  * Function:            basic_summarize
+#  * Author:              Blake
+#  * Date Started:        03/28/2023
 
+#  * Description:
+#  * Returns a summary of the contents from a webpage.
+
+#  * Parameters:
+#  * content                str             contents from a webpage
+#  * keywords               list[str]       list of keywords that will take priority when summarizing
+#  * max_summary_length     int             max length of the summary to be returned
+#############################################################################################################
 def basic_summarize(content: str,
                     keywords: list[str]=[],
                     max_summary_length: str = 1000,
@@ -13,7 +26,14 @@ def basic_summarize(content: str,
     """Given the text content of a webpage, return a summary of it that doesn't exceed max_summary_length characters.
     If keywords is not empty, sentences containing keywords will be more likely to be included"""
 
-    input_parser = Input_Parser()
+    input_parser = InputParser()
+
+    # parse the keywords
+    keywords = [
+        subkeyword
+        for keyword in keywords
+        for subkeyword in input_parser.parse(keyword)[0]
+    ]
 
     # extract sentences
     sentences = nltk.sent_tokenize(content)
@@ -39,7 +59,7 @@ def basic_summarize(content: str,
     word_scores = defaultdict(lambda: 0)
     for (top_word, word_freq) in word_counter.most_common(top_n_words):
         word_scores[top_word] = word_freq / maximum_frequency
-    
+
     # calculate sentence scores, in range [0, inf)
     sentence_scores = [
         # sum over the word scores in the sentence to get its score
@@ -66,11 +86,11 @@ def basic_summarize(content: str,
             summary_length += sentence_length
         else:
             break
-    
+
     # construct the summary by joining the top sentences in the same order they appear
     summary = " ".join((
         sentences[sentence_index]
         for sentence_index in sorted(summary_sentence_index_set)
     ))
-    
+
     return summary

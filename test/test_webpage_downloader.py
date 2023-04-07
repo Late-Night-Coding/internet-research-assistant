@@ -1,7 +1,8 @@
 import asyncio
 import pytest
 
-from searches.webpage_downloader import download_page
+from web_search.webpage_downloader import download_page
+
 
 def test_fake_website():
     page_content = asyncio.run(download_page("http://fakewebsite3489248.io"))

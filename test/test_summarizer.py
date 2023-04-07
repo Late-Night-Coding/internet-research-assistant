@@ -1,5 +1,4 @@
 import pytest
-
 from nlp.basic_summarizer import basic_summarize
 
 @pytest.mark.parametrize("kwargs,expected_summary", [

@@ -1,14 +1,24 @@
 import asyncio
-from searches.google_search import search as google_search
+from web_search.bing_search import Bing
+from web_search.google_search import Google
 
 def test_google_search():
-    results = asyncio.run(google_search("dog", num=5))
+    google = Google()
+    results = asyncio.run(google.search("dog", count=5))
     assert len(results) > 0 and results[0].startswith("http")
 
 def test_nonsense_google_search():
-    results = asyncio.run(google_search("23fh42389h97"))
+    google = Google()
+    results = asyncio.run(google.search("23fh42389h97", count=5))
     assert len(results) == 0
 
-# TODO: Make bing & chatgpt async
 def test_bing_search():
-    raise "not implemented"
+    bing = Bing()
+    results = asyncio.run(bing.search("dog", count=5))
+    assert len(results) > 0 and results[0].startswith("http")
+
+def test_nonsense_bing_search():
+    bing = Bing()
+    results = asyncio.run(bing.search("23fh42389h97", count=5))
+    assert len(results) == 0
+

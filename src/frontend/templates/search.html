@@ -8,8 +8,15 @@
     <!-- Display the search bar at the top of the screen -->
     {% include "searchbar.html" %}
 
+    <div class="hint">
+        <p>Hint: Highlight words to lookup more!  <i id="info-icon" class="fa fa-info-circle"></i></p>
+    </div>
+
     <!-- Render each search result below it -->
     <div class="searchResults">
+        <div class="menu">
+            <i class="lookup" id="lookup-btn">Lookup</i>
+        </div>
         {% for result in results: %}
         <br>
         <div class="searchResult">
@@ -30,5 +37,10 @@
         {% endfor %}
     </div>
 
+
+
 </div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 {% endblock %}

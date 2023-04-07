@@ -1,19 +1,19 @@
-from TopicResults import TopicResults
+from data.topic_results import TopicResults
+
 
 class ResearchResults:
     def __init__(self):
-        self.topics = list()
-        self.descriptions = list()
+        self.topics : list[TopicResults] = list()
 
     #############################################################################################################
-    #  * Function:            addTopics
+    #  * Function:            addTopic
     #  * Author:              Peter Pham (pxp180041)
     #  * Date Started:        03/28/2023
     #  *
     #  * Description:
     #  * creates a new topic with a name, description and list of url
     #############################################################################################################
-    def addTopics(self, topic: str, description: str, URLlist: list) -> None:
+    def add_topic(self, topic: str, description: str, URLlist: list) -> None:
         newTopic = TopicResults(topic, description, URLlist)
         self.topics.append(newTopic)
 
@@ -25,7 +25,7 @@ class ResearchResults:
     #  * Description:
     #  *
     #############################################################################################################
-    def getTopics(self, index=None, name=None) -> list:
+    def get_topics(self, index=None, name=None) -> list:
 
         # return the entire thing
         if index is None and name is None:
@@ -38,7 +38,7 @@ class ResearchResults:
         # if the name is not empty return the specific topic
         elif name is not None:
             for topic in self.topics:
-                if topic.getTopicName == name:
+                if topic.get_topic_name == name:
                     return topic
 
 
