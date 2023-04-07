@@ -21,7 +21,7 @@ class BrowserTest(unittest.TestCase):
 
         assert "no" & "results" in driver.page_source
 
-    def testSearchFromText(self):
+    def testSearchFromSelection(self):
         driver = self.driver
         search_bar = driver.find_element_by_name("searchbar")
         search_bar.clear()
