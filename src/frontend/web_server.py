@@ -15,7 +15,6 @@ def get_results(query):
                 {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
                 {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
             ],
-            "reason": "This was the first item returned by google search" 
         },
         {
             "title": "Pitching",
@@ -27,7 +26,6 @@ def get_results(query):
                 {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
 
             ],
-            "reason": "This was the first item returned by bing search" 
         },
         {
             "title": "MLB",
@@ -39,7 +37,6 @@ def get_results(query):
                 {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
 
             ],
-            "reason": "This was the second item returned by google search" 
         },
         ]
     else: 
@@ -53,7 +50,6 @@ def get_results(query):
                 {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
                 {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
             ],
-            "reason": "This was the first item returned by google search" 
         },
         ]
 
