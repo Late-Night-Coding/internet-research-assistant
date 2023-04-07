@@ -1,4 +1,5 @@
 import asyncio
+from async_util import get_event_loop
 import search_controller
 from flask import Flask, render_template, request
 
@@ -7,8 +8,7 @@ app = Flask(__name__)
 
 def get_results(query):
     searcher = search_controller.SearchController()
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    result = asyncio.run(searcher.search(query))
+    result = get_event_loop().run_until_complete(searcher.search(query))
     result_list = []
     for topic in result.topics:
         link_list = []

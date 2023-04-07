@@ -5,12 +5,13 @@ from web_search.request_throttler import RequestThrottler
 OPENAI_MAX_PROMPT_LEN = 1000
 
 
+openai_throttler = RequestThrottler()
+
 class OpenAI:
     def __init__(self):
         self.key = "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"
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
         self.endpoint = "https://api.openai.com/v1/"
-        self.openai_throttler = RequestThrottler()
 
     async def _request(self, endpoint, data):
         async with aiohttp.ClientSession() as session:
@@ -30,7 +31,7 @@ class OpenAI:
         else:
             prompt = f"What are some relevant search terms for the following query: '{keyword}'?"
 
-        await self.openai_throttler.throttle_request()
+        await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,
@@ -52,7 +53,7 @@ class OpenAI:
 
         prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
 
-        await self.openai_throttler.throttle_request()
+        await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,

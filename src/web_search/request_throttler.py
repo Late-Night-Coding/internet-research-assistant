@@ -1,6 +1,8 @@
 import time
 import asyncio
 
+from async_util import get_lock
+
 
 class RequestThrottler:
     """The purpose of this class is to limit requests to search engines"""
@@ -8,7 +10,7 @@ class RequestThrottler:
     def __init__(self, interval_between_requests=1):
         self.next_available_time = 0
         self.interval_between_requests = interval_between_requests
-        self.lock = asyncio.Lock()
+        self.lock = get_lock()
 
     async def throttle_request(self):
         """This method waits until the next available time to make a request"""

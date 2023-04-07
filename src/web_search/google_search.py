@@ -2,14 +2,13 @@ import aiohttp
 
 from web_search.request_throttler import RequestThrottler
 
-
+google_search_throttler = RequestThrottler()
 
 class Google:
     def __init__(self):
         self.api_key = "AIzaSyB3RhZrp0ndu2FY5BsiM5EQr-9u9CIi1xU"
         self.cx = "7226b80805cf44a68"
         self.search_url = "https://www.googleapis.com/customsearch/v1"
-        self.google_search_throttler = RequestThrottler()
 
     async def search(self, search_term: str, count=10) -> list[str]:
         results = []
@@ -31,7 +30,7 @@ class Google:
         return results
 
     async def __search(self, q, num=10, start=0) -> list:
-        await self.google_search_throttler.throttle_request()
+        await google_search_throttler.throttle_request()
 
         # make the async search
         async with aiohttp.ClientSession() as session:

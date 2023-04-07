@@ -80,7 +80,7 @@ class SearchProcessor:
         # Create tasks for each keyword to search asynchronously
         tasks = []
         for keyword in keywords:
-            task = asyncio.ensure_future(self.__search_keyword(keyword))
+            task = asyncio.create_task(self.__search_keyword(keyword))
             tasks.append(task)
 
         # Gather the results of all tasks
