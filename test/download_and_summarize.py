@@ -2,11 +2,11 @@
 
 import asyncio
 import os
-from nlp.basic_summarizer import __basic_summarize__
-from searches.webpage_downloader import download_page
-from searches.bing_search import Bing
-from searches.openai_search import OpenAI
-from searches.google_search import Google
+from nlp.basic_summarizer import basic_summarize
+from openai_api import OpenAI
+from web_search.bing_search import Bing
+from web_search.google_search import Google
+from web_search.webpage_downloader import download_page
 
 
 
@@ -35,7 +35,7 @@ def main():
     for url in wikiLinks:
         print(url)
         page_content = asyncio.run(download_page(url))  # important: note that the call is async
-        summary = __basic_summarize__(page_content)
+        summary = basic_summarize(page_content)
         print(summary)
         total_summary = total_summary + summary
 

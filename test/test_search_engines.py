@@ -1,6 +1,6 @@
 import asyncio
-from searches.bing_search import Bing
-from searches.google_search import Google
+from web_search.bing_search import Bing
+from web_search.google_search import Google
 
 def test_google_search():
     google = Google()
