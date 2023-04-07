@@ -2,14 +2,15 @@ import aiohttp
 from data.search_history import SearchHistory
 from web_search.request_throttler import RequestThrottler
 
-openai_throttler = RequestThrottler()
 OPENAI_MAX_PROMPT_LEN = 1000
+
 
 class OpenAI:
     def __init__(self):
         self.key = "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"
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
         self.endpoint = "https://api.openai.com/v1/"
+        self.openai_throttler = RequestThrottler()
 
     async def _request(self, endpoint, data):
         async with aiohttp.ClientSession() as session:
@@ -20,8 +21,8 @@ class OpenAI:
     async def get_search_keywords(self, history: SearchHistory) -> list[str]:
         # get the keyword and the context from the search history
         keyword_history = history.get_keyword_history()
-        context = " > ".join(keyword_history[:-1])      # Example: 'animals > dogs'
-        keyword = keyword_history[-1]                   # Example: 'beagle'
+        context = " > ".join(keyword_history[:-1])  # Example: 'animals > dogs'
+        keyword = keyword_history[-1]  # Example: 'beagle'
 
         # create a prompt for chat-gpt to get useful search terms 
         if context:
@@ -29,7 +30,7 @@ class OpenAI:
         else:
             prompt = f"What are some relevant search terms for the following query: '{keyword}'?"
 
-        await openai_throttler.throttle_request()
+        await self.openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,
@@ -51,7 +52,7 @@ class OpenAI:
 
         prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
 
-        await openai_throttler.throttle_request()
+        await self.openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,
@@ -67,8 +68,8 @@ class OpenAI:
 
     def __format(self, response_obj):
         # extract the text from ChatGPT's response, and split it into lines
-        text_response : str = response_obj["choices"][0]["text"].strip()
-        response_lines : list[str] = text_response.split("\n")
+        text_response: str = response_obj["choices"][0]["text"].strip()
+        response_lines: list[str] = text_response.split("\n")
 
         # If there's only one line, return it as a string
         if len(response_lines) == 1:
@@ -84,7 +85,6 @@ class OpenAI:
             sep = '-'
         elif '.q ' in first_elem:
             sep = '.q '
-        
 
         if sep is not None:
             return [elem.split(sep)[1] for elem in response_lines]

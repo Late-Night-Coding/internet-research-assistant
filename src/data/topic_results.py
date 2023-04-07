@@ -6,7 +6,7 @@ class TopicResults:
     def __init__(self, topic_name: str, topic_description: str, url_list: list[str]):
         self.topic_name = topic_name
         self.topic_description = topic_description
-        self.url_list : list[URL] = list()
+        self.url_list: list[URL] = list()
 
         # create categories
         self.wiki_cat = URLCategory("Wiki")
@@ -69,5 +69,5 @@ class TopicResults:
                 return self.youtube_cat
             elif ("twitter" in part) or ("facebook" in part) or ("instagram" in part):
                 return self.social_media_cat
-            else:
-                return self.other_cat
+
+        return self.other_cat
