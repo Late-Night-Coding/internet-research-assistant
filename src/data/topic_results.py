@@ -1,19 +1,22 @@
-from URL import URL
-from URLCategory import URLCategory
+from data.url import URL
+from data.url_category import URLCategory
+
 
 class TopicResults:
-    def __init__(self, topicName, topicDescription, URLlist: list):
-        self.topicName = topicName
-        self.topicDescription = topicDescription
-        self.URLlist = list()
-        self.wikiCat = URLCategory("Wiki")
-        self.youtubeCat = URLCategory("Youtube", "1")
-        self.socialMedia = URLCategory("Social Media")
-        self.otherCat = URLCategory("Other")
+    def __init__(self, topic_name: str, topic_description: str, url_list: list[str]):
+        self.topic_name = topic_name
+        self.topic_description = topic_description
+        self.url_list : list[URL] = list()
+
+        # create categories
+        self.wiki_cat = URLCategory("Wiki")
+        self.youtube_cat = URLCategory("Youtube", "1")
+        self.social_media_cat = URLCategory("Social Media")
+        self.other_cat = URLCategory("Other")
 
         # add all the links to the url
-        for link in URLlist:
-            self.URLlist.append(URL(link, self.__linkClassifier__(link)))
+        for link in url_list:
+            self.url_list.append(URL(link, self.__classify_link(link)))
 
     #############################################################################################################
     #  * Function:            addTopics
@@ -23,8 +26,8 @@ class TopicResults:
     #  * Description:
     #  * returns the name of the topic
     #############################################################################################################
-    def getTopicName(self) -> str:
-        return self.topicName
+    def get_topic_name(self) -> str:
+        return self.topic_name
 
     #############################################################################################################
     #  * Function:            getTopicDescription
@@ -34,8 +37,8 @@ class TopicResults:
     #  * Description:
     #  * returns the description/summary of the topic
     #############################################################################################################
-    def getTopicDescription(self) -> str:
-        return self.topicDescription
+    def get_topic_description(self) -> str:
+        return self.topic_description
 
     #############################################################################################################
     #  * Function:            getURLs
@@ -45,11 +48,11 @@ class TopicResults:
     #  * Description:
     #  * returns the list of URLs
     #############################################################################################################
-    def getURLs(self):
-        return self.URLlist
+    def get_urls(self):
+        return self.url_list
 
     #############################################################################################################
-    #  * Function:            __linkClassifier__
+    #  * Function:            __classify_link
     #  * Author:              Peter Pham (pxp180041)
     #  * Date Started:        03/29/2023
 
@@ -57,14 +60,14 @@ class TopicResults:
     #  * Assigns links to categories based on the domain of the link
     #  * returns the URLCategory class
     #############################################################################################################
-    def __linkClassifier__(self, link: str):
+    def __classify_link(self, link: str):
         link = link.lower().split(".")
         for part in link[:-1]:
             if ("wiki" in part or "fandom" in part) or ("britannica" in part or "pedia" in part):
-                return self.wikiCat
+                return self.wiki_cat
             elif "youtube" in part:
-                return self.youtubeCat
+                return self.youtube_cat
             elif ("twitter" in part) or ("facebook" in part) or ("instagram" in part):
-                return self.socialMedia
+                return self.social_media_cat
             else:
-                return self.otherCat
+                return self.other_cat

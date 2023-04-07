@@ -1,4 +1,4 @@
-from URLCategory import URLCategory
+from data.url_category import URLCategory
 
 class URL:
     def __init__(self, link: str, category: URLCategory):
@@ -13,7 +13,7 @@ class URL:
     #  * Description:
     #  * returns the link stored
     #############################################################################################################
-    def getLink(self) -> str:
+    def get_link(self) -> str:
         return self.link
 
     #############################################################################################################
@@ -24,7 +24,7 @@ class URL:
     #  * Description:
     #  * returns the category the url belongs to
     #############################################################################################################
-    def getCategory(self) -> URLCategory:
+    def get_category(self) -> URLCategory:
         return self.category
 
 
