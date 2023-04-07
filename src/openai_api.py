@@ -1,3 +1,4 @@
+from typing import Union
 import aiohttp
 from data.search_history import SearchHistory
 from web_search.request_throttler import RequestThrottler
@@ -27,9 +28,9 @@ class OpenAI:
 
         # create a prompt for chat-gpt to get useful search terms 
         if context:
-            prompt = f"What are some relevant search terms for the following query: '{keyword}', given that its parent topic is '{context}'?"
+            prompt = f"What are some relevant search terms for the following query: '{keyword}', given that its parent topic is '{context}'? Format your response as a bulleted list.\nRESPONSE:\n"
         else:
-            prompt = f"What are some relevant search terms for the following query: '{keyword}'?"
+            prompt = f"What are some relevant search terms for the following query: '{keyword}'? Format your response as a bulleted list.\nRESPONSE:\n"
 
         await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
@@ -43,7 +44,7 @@ class OpenAI:
             "presence_penalty": 1.1,
         })
 
-        return self.__format(response_obj)
+        return self.__format(response_obj, format='return_list')
 
     async def summarize(self, keyword: str, web_content_summary: str) -> str:
 
@@ -51,7 +52,7 @@ class OpenAI:
         if len(web_content_summary) > OPENAI_MAX_PROMPT_LEN:
             web_content_summary = web_content_summary[:OPENAI_MAX_PROMPT_LEN]
 
-        prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
+        prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}\nRESPONSE:\n"
 
         await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
@@ -65,15 +66,18 @@ class OpenAI:
             "presence_penalty": 1.1,
         })
 
-        return self.__format(response_obj)
+        return self.__format(response_obj, format='return_str')
 
-    def __format(self, response_obj):
+    def __format(self, response_obj, format:Union['return_list','return_str','auto']='auto'):
         # extract the text from ChatGPT's response, and split it into lines
         text_response: str = response_obj["choices"][0]["text"].strip()
         response_lines: list[str] = text_response.split("\n")
 
+        if format == 'return_str':
+            return text_response
+
         # If there's only one line, return it as a string
-        if len(response_lines) == 1:
+        if len(response_lines) == 1 and format == 'auto':
             return response_lines[0]
 
         # If there's many lines, we assume ChatGPT was giving us a list.
