@@ -9,10 +9,10 @@ class TopicResults:
         self.url_list: list[URL] = list()
 
         # create categories
-        self.wiki_cat = URLCategory("Wiki")
+        self.wiki_cat = URLCategory("Wiki", "54")
         self.youtube_cat = URLCategory("Youtube", "1")
-        self.social_media_cat = URLCategory("Social Media")
-        self.other_cat = URLCategory("Other")
+        self.social_media_cat = URLCategory("Social Media", "185")
+        self.other_cat = URLCategory("Other", "108")
 
         # add all the links to the url
         for link in url_list:
