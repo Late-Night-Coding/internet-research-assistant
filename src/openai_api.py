@@ -6,7 +6,7 @@ from web_search.request_throttler import RequestThrottler
 OPENAI_MAX_PROMPT_LEN = 1000
 
 
-openai_throttler = RequestThrottler()
+openai_throttler = RequestThrottler("OpenAI")
 
 class OpenAI:
     def __init__(self):
@@ -32,7 +32,7 @@ class OpenAI:
         else:
             prompt = f"What are some relevant search terms for the following query: '{keyword}'? Format your response as a bulleted list.\nRESPONSE:\n"
 
-        await openai_throttler.throttle_request()
+        await openai_throttler.throttle_request("Prompt length: "+str(len(prompt)))
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,
@@ -54,7 +54,7 @@ class OpenAI:
 
         prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}\nRESPONSE:\n"
 
-        await openai_throttler.throttle_request()
+        await openai_throttler.throttle_request("Prompt length: "+str(len(prompt)))
         response_obj = await self._request("completions", {
             "model": "text-davinci-003",
             "prompt": prompt,

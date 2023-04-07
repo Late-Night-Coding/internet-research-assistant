@@ -2,7 +2,7 @@ import aiohttp
 
 from web_search.request_throttler import RequestThrottler
 
-google_search_throttler = RequestThrottler()
+google_search_throttler = RequestThrottler("Google")
 
 class Google:
     def __init__(self):
