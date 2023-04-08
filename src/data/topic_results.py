@@ -18,8 +18,6 @@ class TopicResults:
         for link in url_list:
             self.url_list.append(URL(link, self.__classify_link(link)))
 
-        self.__sort_links()
-
     #############################################################################################################
     #  * Function:            addTopics
     #  * Author:              Peter Pham (pxp180041)
@@ -73,32 +71,3 @@ class TopicResults:
                 return self.social_media_cat
 
         return self.other_cat
-
-    #############################################################################################################
-    #  * Function:            __classify_link
-    #  * Author:              Peter Pham (pxp180041)
-    #  * Date Started:        03/29/2023
-
-    #  * Description:
-    #  * Assigns links to categories based on the domain of the link
-    #  * returns the URLCategory class
-    #############################################################################################################
-    def __sort_links(self) -> None:
-
-        wikiLinks = list()
-        youtubeLinks = list()
-        socialLinks = list()
-        otherLinks = list()
-
-        for item in self.url_list:
-            if item.category.name == "Wiki":
-                wikiLinks.append(item)
-            elif item.category.name == "Youtube":
-                youtubeLinks.append(item)
-            elif item.category.name == "Social Media":
-                socialLinks.append(item)
-            else:
-                otherLinks.append(item)
-
-        self.url_list = [*wikiLinks, *youtubeLinks, *socialLinks, *otherLinks]
-
