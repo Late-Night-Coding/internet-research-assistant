@@ -71,3 +71,30 @@ class TopicResults:
                 return self.social_media_cat
 
         return self.other_cat
+
+    #############################################################################################################
+    #  * Function:            __sort_links
+    #  * Author:              Peter Pham (pxp180041)
+    #  * Date Started:        04/07/2023
+
+    #  * Description:
+    #  * sort the links based on the category of the links
+    #############################################################################################################
+    def __sort_links(self) -> None:
+
+        wikiLinks = list()
+        youtubeLinks = list()
+        socialLinks = list()
+        otherLinks = list()
+
+        for item in self.url_list:
+            if item.category.name == "Wiki":
+                wikiLinks.append(item)
+            elif item.category.name == "Youtube":
+                youtubeLinks.append(item)
+            elif item.category.name == "Social Media":
+                socialLinks.append(item)
+            else:
+                otherLinks.append(item)
+
+        self.url_list = [*wikiLinks, *youtubeLinks, *socialLinks, *otherLinks]
