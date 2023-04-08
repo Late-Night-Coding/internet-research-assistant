@@ -12,14 +12,12 @@ class OpenAI:
     def __init__(self):
         self.key = "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"
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
-        self.endpoint = "https://api.openai.com/v1/chat/"
+        self.endpoint = "https://api.openai.com/v1/"
 
     async def _request(self, endpoint, data):
         async with aiohttp.ClientSession() as session:
             headers = {"Authorization": f"Bearer {self.key}"}
             async with session.post(self.endpoint + endpoint, headers=headers, json=data) as resp:
-                print("sending request to openai api with this data")
-                print(data)
                 return await resp.json()
 
     async def get_search_keywords(self, history: SearchHistory) -> list[str]:
@@ -28,7 +26,7 @@ class OpenAI:
         context = " > ".join(keyword_history[:-1])  # Example: 'animals > dogs'
         keyword = keyword_history[-1]  # Example: 'beagle'
 
-        # create a prompt for chat-gpt to get useful search terms 
+        # create a prompt for chat-gpt to get useful search terms
         if context:
             prompt = f"What are some relevant search terms for the following query: '{keyword}', given that its parent topic is '{context}'? Format your response as a bulleted list.\nRESPONSE:\n"
         else:
@@ -36,14 +34,12 @@ class OpenAI:
 
         await openai_throttler.throttle_request("Prompt length: "+str(len(prompt)))
         response_obj = await self._request("completions", {
-            "model": "gpt-3.5-turbo",
-            "messages": [
-                {"role": "system", "content": "You are an assistant that can come up with other topics related to the keywords and topic provided in a bulleted list"},
-                {"role": "system", "content": prompt}
-            ],
+            "model": "text-davinci-003",
+            "prompt": prompt,
             "temperature": 0.1,
             "max_tokens": 1000,
             "top_p": 1,
+            "best_of": 1,
             "frequency_penalty": 0,
             "presence_penalty": 1.1,
         })
@@ -60,14 +56,12 @@ class OpenAI:
 
         await openai_throttler.throttle_request("Prompt length: "+str(len(prompt)))
         response_obj = await self._request("completions", {
-            "model": "gpt-3.5-turbo",
-            "messages": [
-                {"role": "system", "content": "You are a summarizer that takes long paragraphs and condenses them down to 3 sentences. Stick to the topic as much as possible but take into account the keywords that are provided."},
-                {"role": "system", "content": prompt}
-            ],
+            "model": "text-davinci-003",
+            "prompt": prompt,
             "temperature": 0.1,
             "max_tokens": 1000,
             "top_p": 1,
+            "best_of": 2,
             "frequency_penalty": 0,
             "presence_penalty": 1.1,
         })
@@ -76,7 +70,7 @@ class OpenAI:
 
     def __format(self, response_obj, format:Union['return_list','return_str','auto']='auto'):
         # extract the text from ChatGPT's response, and split it into lines
-        text_response: str = response_obj["choices"][0]["message"]["content"].strip()
+        text_response: str = response_obj["choices"][0]["text"].strip()
         response_lines: list[str] = text_response.split("\n")
 
         if format == 'return_str':

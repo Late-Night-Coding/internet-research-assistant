@@ -18,6 +18,8 @@ class TopicResults:
         for link in url_list:
             self.url_list.append(URL(link, self.__classify_link(link)))
 
+        self.__sort_links()
+
     #############################################################################################################
     #  * Function:            addTopics
     #  * Author:              Peter Pham (pxp180041)
