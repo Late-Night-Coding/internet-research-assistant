@@ -23,20 +23,23 @@ class OpenAI:
         context = " > ".join(keyword_history[:-1])      # Example: 'animals > dogs'
         keyword = keyword_history[-1]                   # Example: 'beagle'
 
-        # create a prompt for chat-gpt to get useful search terms 
+        # create a prompt for chat-gpt to get useful search terms
         if context:
-            prompt = f"What are some relevant search terms for the following query: '{keyword}', given that its parent topic is '{context}'?"
+            prompt = f"What are some relevant search terms for the following query: '{keyword}', given that its parent topic is '{context}'? Format your response as a bulleted list.\nRESPONSE:\n"
         else:
-            prompt = f"What are some relevant search terms for the following query: '{keyword}'?"
+            prompt = f"What are some relevant search terms for the following query: '{keyword}'? Format your response as a bulleted list.\nRESPONSE:\n"
 
         await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
-            "model": "text-davinci-003",
-            "prompt": prompt,
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {"role": "system",
+                 "content": "You are an assistant that can come up with other topics related to the keywords and topic provided in a bulleted list"},
+                {"role": "system", "content": prompt}
+            ],
             "temperature": 0.1,
             "max_tokens": 1000,
             "top_p": 1,
-            "best_of": 1,
             "frequency_penalty": 0,
             "presence_penalty": 1.1,
         })
@@ -53,12 +56,15 @@ class OpenAI:
 
         await openai_throttler.throttle_request()
         response_obj = await self._request("completions", {
-            "model": "text-davinci-003",
-            "prompt": prompt,
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {"role": "system",
+                 "content": "You are a summarizer that takes long paragraphs and condenses them down to 3 sentences. Stick to the topic as much as possible but take into account the keywords that are provided."},
+                {"role": "system", "content": prompt}
+            ],
             "temperature": 0.1,
             "max_tokens": 1000,
             "top_p": 1,
-            "best_of": 2,
             "frequency_penalty": 0,
             "presence_penalty": 1.1,
         })
