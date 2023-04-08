@@ -12,4 +12,4 @@ def get_event_loop():
     return event_loop
 
 def get_lock():
-    return asyncio.Lock(loop=event_loop)
+    return asyncio.Lock()
