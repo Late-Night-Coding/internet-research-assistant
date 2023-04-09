@@ -3,6 +3,7 @@ from data.url_category import URLCategory
 class URL:
     def __init__(self, link: str, category: URLCategory):
         self.link = link
+        self.name = link.split("//")[1].split("/")[0].replace("www.", "")
         self.category = category
 
     #############################################################################################################
@@ -26,5 +27,6 @@ class URL:
     #############################################################################################################
     def get_category(self) -> URLCategory:
         return self.category
+
 
 

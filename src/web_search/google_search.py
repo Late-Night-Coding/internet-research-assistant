@@ -1,15 +1,14 @@
-import asyncio
-from googleapiclient.discovery import build
+import aiohttp
 
 from web_search.request_throttler import RequestThrottler
 
-google_search_throttler = RequestThrottler()
+google_search_throttler = RequestThrottler("Google")
 
 class Google:
     def __init__(self):
         self.api_key = "AIzaSyB3RhZrp0ndu2FY5BsiM5EQr-9u9CIi1xU"
         self.cx = "7226b80805cf44a68"
-        self.service = build("customsearch", "v1", developerKey=self.api_key)
+        self.search_url = "https://www.googleapis.com/customsearch/v1"
 
     async def search(self, search_term: str, count=10) -> list[str]:
         results = []
@@ -31,9 +30,21 @@ class Google:
         return results
 
     async def __search(self, q, num=10, start=0) -> list:
-        await google_search_throttler.throttle_request()        
-        # TODO: Make the search async
-        res = self.service.cse().list(q=q, cx=self.cx, num=num, start=start).execute()
+        await google_search_throttler.throttle_request()
+
+        # make the async search
+        async with aiohttp.ClientSession() as session:
+            params = {
+                "key": self.api_key,
+                "cx": self.cx,
+                "q": q,
+                "num": num,
+                "start": start
+            }
+            async with session.get(self.search_url, params=params) as response:
+                response.raise_for_status()
+                res = await response.json()
+
         if "items" in res:
             return [item["link"] for item in res["items"]]
         else:

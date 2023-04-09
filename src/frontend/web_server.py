@@ -1,60 +1,30 @@
+import asyncio
+from async_util import get_event_loop
+import search_controller
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+
 def get_results(query):
-    # TODO: This is a dummy function. Implement it later
-    if(query == ""):
-        return [
-        {
-            "title": "Sport",
-            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-            ],
-        },
-        {
-            "title": "Pitching",
-            "description": "Pitching is a fundamental aspect of baseball, and it's important to understand the different types of pitches that pitchers can throw in order to effectively analyze and appreciate the game.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-
-            ],
-        },
-        {
-            "title": "MLB",
-            "description": "Major League Baseball (MLB) is a professional baseball organization and the oldest major professional sports league in the world.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-
-            ],
-        },
-        ]
-    else: 
-        return [
-        {
-            "title": "Sport",
-            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-            ],
-        },
-        ]
-
-    
-    
+    searcher = search_controller.SearchController()
+    result = get_event_loop().run_until_complete(searcher.search(query))
+    result_list = []
+    for topic in result.topics:
+        link_list = []
+        for url in topic.url_list:
+            link_list.append({
+                "url": url.link,
+                "link_hue": str(url.category.color),
+                "link_type": url.category.name,
+                "name": url.name  # You may want to add a name attribute to URL class and retrieve it here
+            })
+        result_list.append({
+            "title": topic.topic_name,
+            "description": topic.topic_description,
+            "links": link_list
+        })
+    return result_list
 
 
 @app.route('/')
@@ -64,11 +34,12 @@ def homepage():
     """
     return render_template('homepage.html')
 
+
 @app.route("/search")
 def search():
     """Called on each search query"""
 
-    search_query = request.args.get('query') 
+    search_query = request.args.get('query')
 
     # TODO: handle requests asynchronously (async / await)
     results = get_results(search_query)
@@ -79,6 +50,7 @@ def search():
 # Entry point
 def start():
     app.run(host="0.0.0.0", port=8080)
+
 
 if __name__ == '__main__':
     start()
