@@ -39,11 +39,12 @@ def main():
         print(summary)
         total_summary = total_summary + summary
 
+    print("total Summary:")
     print("\n" + total_summary + "\n")
 
-    openai = OpenAI()
-    response = asyncio.run(openai.summarize(total_summary))
-    print(response)
+    # openai = OpenAI()
+    # response = asyncio.run(openai.summarize(total_summary))
+    # print(response)
 
 def isWiki(link):
     link = link.lower().split(".")

@@ -1,7 +1,8 @@
 import aiohttp
 from web_search.request_throttler import RequestThrottler
 
-bing_search_throttler = RequestThrottler()
+
+bing_search_throttler = RequestThrottler("Bing")
 
 class Bing:
     def __init__(self):
