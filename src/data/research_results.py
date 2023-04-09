@@ -1,9 +1,13 @@
+import json
+
+from flask import jsonify
+
 from data.topic_results import TopicResults
 
 
 class ResearchResults:
     def __init__(self):
-        self.topics : list[TopicResults] = list()
+        self.topics: list[TopicResults] = list()
 
     #############################################################################################################
     #  * Function:            addTopic
@@ -25,7 +29,7 @@ class ResearchResults:
     #  * Description:
     #  *
     #############################################################################################################
-    def get_topics(self, index=None, name=None) -> list:
+    def get_topics(self, index=None, name=None):
 
         # return the entire thing
         if index is None and name is None:
@@ -40,6 +44,3 @@ class ResearchResults:
             for topic in self.topics:
                 if topic.get_topic_name == name:
                     return topic
-
-
-

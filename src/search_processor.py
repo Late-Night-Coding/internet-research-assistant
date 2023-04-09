@@ -26,6 +26,7 @@ def __is_wiki_link__(link: str):
 
     return False
 
+
 #############################################################################################################
 #  * Function:            summarize_topic
 #  * Author:              Peter Pham (pxp180041)
@@ -45,7 +46,9 @@ async def summarize_topic(links: list[str], keyword: str) -> str:
     for item in links:
         if __is_wiki_link__(item):
             wiki_links.add(item)
-    
+
+    wiki_links = list(wiki_links)
+
     # limit the number of links
     # TODO: Maybe change this limit
     if len(wiki_links) > 3:
@@ -70,26 +73,25 @@ class SearchProcessor:
         self.search_aggregator = SearchAggregator()
 
     async def search(self, keywords: list[str]):
-        
+
         # Create ResearchResult obj
         research_results = ResearchResults()
 
         # Create tasks for each keyword to search asynchronously
         tasks = []
         for keyword in keywords:
-            task = asyncio.ensure_future(self.__search_keyword(keyword))
+            task = asyncio.create_task(self.__search_keyword(keyword))
             tasks.append(task)
 
         # Gather the results of all tasks
         responses = await asyncio.gather(*tasks)
- 
+
         # Process the responses and add them to the results list
         for response in responses:
             if response:
-                research_results.add_topic(response[0],response[1],response[2])
-                
+                research_results.add_topic(response[0], response[1], response[2])
+
         return research_results
-    
 
     async def __search_keyword(self, keyword):
         # use search engines to obtain urls relating to keyword
@@ -97,9 +99,7 @@ class SearchProcessor:
 
         # Obtain summary from links
         summary = await summarize_topic(urls, keyword)
-        topic_info = [keyword,summary,urls]
+        topic_info = [keyword, summary, urls]
 
         # Combine the results of each keyword's thread
         return topic_info
-
-        
