@@ -76,7 +76,7 @@ class OpenAI:
 
     def __format(self, response_obj, format:Union['return_list','return_str','auto']='auto'):
         # extract the text from ChatGPT's response, and split it into lines
-        text_response: str = response_obj["choices"][0]["text"].strip()
+        text_response: str = response_obj["choices"][0]['message']['content'].strip()
         response_lines: list[str] = text_response.split("\n")
 
         if format == 'return_str':
