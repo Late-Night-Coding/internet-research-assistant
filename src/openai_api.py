@@ -12,7 +12,7 @@ class OpenAI:
     def __init__(self):
         self.key = "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"
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
-        self.endpoint = "https://api.openai.com/v1/"
+        self.endpoint = "https://api.openai.com/v1/chat/"
 
     async def _request(self, endpoint, data):
         async with aiohttp.ClientSession() as session:
