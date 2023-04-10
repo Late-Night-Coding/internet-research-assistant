@@ -1,9 +1,9 @@
 from data.url import URL
 from data.url_category import URLCategory
-
+from data.web_content import WebContent
 
 class TopicResults:
-    def __init__(self, topic_name: str, topic_description: str, url_list: list[str]):
+    def __init__(self, topic_name: str, topic_description: str, url_list: list[str], page_contents: list[WebContent]):
         self.topic_name = topic_name
         self.topic_description = topic_description
         self.url_list: list[URL] = list()
@@ -15,8 +15,8 @@ class TopicResults:
         self.other_cat = URLCategory("Other", "108")
 
         # add all the links to the url
-        for link in url_list:
-            self.url_list.append(URL(link, self.__classify_link(link)))
+        for link, content in zip(url_list, page_contents):
+            self.url_list.append(URL(link, self.__classify_link(link), content.page_title))
 
         self.__sort_links()
 

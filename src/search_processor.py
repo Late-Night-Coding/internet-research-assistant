@@ -4,6 +4,7 @@ from data.research_results import ResearchResults
 from openai_api import OpenAI
 from web_search.search_aggregator import SearchAggregator
 from web_search.webpage_downloader import download_page
+from data.web_content import WebContent
 
 
 #############################################################################################################
@@ -39,33 +40,44 @@ def __is_wiki_link__(link: str):
 #  * Parameters:
 #  * links              list()              list of all the links to summarize
 #############################################################################################################
-async def summarize_topic(links: list[str], keyword: str) -> str:
+async def summarize_topic(links: list[str], keyword: str) -> tuple:
     wiki_links = set()
-
-    # filters everything but wiki links and adds them to a list
-    for item in links:
-        if __is_wiki_link__(item):
-            wiki_links.add(item)
+    web_pages = list()
 
     wiki_links = list(wiki_links)
+
+
+
+    total_summary = ""
+
+    tasks = []
+
+    # summarizes each link and consolidate them together
+    print("downloading page contents for each links")
+    for url in links:
+        task = asyncio.create_task(download_page(url))
+        tasks.append(task)
+
+    web_pages = await asyncio.gather(*tasks)
+
+
+    for page in web_pages:
+        if __is_wiki_link__(page.url):
+            wiki_links.append(page)
 
     # limit the number of links
     # TODO: Maybe change this limit
     if len(wiki_links) > 3:
         wiki_links = wiki_links[:3]
 
-    total_summary = ""
-
-    # summarizes each link and consolidate them together
-    for url in wiki_links:
-        page_content = await download_page(url)
-        summary = basic_summarize(page_content, [keyword])
+    for page in wiki_links:
+        summary = basic_summarize(page.content, [keyword])
         total_summary = total_summary + summary
 
     openai = OpenAI()
     response = await openai.summarize(keyword, total_summary)
 
-    return response
+    return response, web_pages
 
 
 class SearchProcessor:
@@ -89,7 +101,7 @@ class SearchProcessor:
         # Process the responses and add them to the results list
         for response in responses:
             if response:
-                research_results.add_topic(response[0], response[1], response[2])
+                research_results.add_topic(response[0], response[1], response[2], response[3])
 
         return research_results
 
@@ -98,8 +110,10 @@ class SearchProcessor:
         urls = await self.search_aggregator.search(keyword)
 
         # Obtain summary from links
-        summary = await summarize_topic(urls, keyword)
-        topic_info = [keyword, summary, urls]
+        print("starting topic summarization")
+        summary, page_contents = await summarize_topic(urls, keyword)
+        print("finished topic summarization")
+        topic_info = [keyword, summary, urls, page_contents]
 
         # Combine the results of each keyword's thread
         return topic_info

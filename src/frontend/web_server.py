@@ -1,4 +1,5 @@
 import asyncio
+import time
 from async_util import get_event_loop
 import search_controller
 from flask import Flask, render_template, request
@@ -7,6 +8,7 @@ app = Flask(__name__)
 
 
 def get_results(query):
+    start_time = time.time()
     searcher = search_controller.SearchController()
     result = get_event_loop().run_until_complete(searcher.search(query))
     result_list = []
@@ -24,6 +26,11 @@ def get_results(query):
             "description": topic.topic_description,
             "links": link_list
         })
+
+        end_time = time.time()
+
+        elapsed_time = end_time - start_time
+        print(f"Elapsed time: {elapsed_time} seconds")
     return result_list
 
 
@@ -39,7 +46,8 @@ def homepage():
 def search():
     """Called on each search query"""
 
-    search_query = request.args.get('query')
+    search_query = request.args.get('query').strip()
+    print("got " + search_query + " from html")
 
     # TODO: handle requests asynchronously (async / await)
     results = get_results(search_query)

@@ -17,8 +17,8 @@ class ResearchResults:
     #  * Description:
     #  * creates a new topic with a name, description and list of url
     #############################################################################################################
-    def add_topic(self, topic: str, description: str, URLlist: list) -> None:
-        newTopic = TopicResults(topic, description, URLlist)
+    def add_topic(self, topic: str, description: str, URLlist: list, page_contents: list) -> None:
+        newTopic = TopicResults(topic, description, URLlist, page_contents)
         self.topics.append(newTopic)
 
     #############################################################################################################
