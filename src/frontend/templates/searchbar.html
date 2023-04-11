@@ -2,5 +2,10 @@
 <form action="/search" method="get">
     <input name="query" type="text" placeholder="Search..." value="{{query}}">
     <button type="submit" value="Go"><i class="fa fa-search"></i></button>
+
+    <!-- This puts the {{id}} in /search?id={{id}} -->
+    {% if id is not none %} 
+        <input name="id" type="hidden" value="{{id}}">
+    {% endif %}
 </form>
 </div>

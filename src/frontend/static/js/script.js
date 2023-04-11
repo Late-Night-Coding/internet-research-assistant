@@ -49,7 +49,7 @@ const lookupbtn = document.getElementById("lookup-btn");
 document.addEventListener("click", function(event){
 
     if(event.target == lookupbtn){
-        performSearch(currInputQuery + ' ' + selectedText);
+        performSearch(selectedText);
         menu.style.display = "none";
     } 
 });

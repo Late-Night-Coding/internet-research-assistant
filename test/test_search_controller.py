@@ -57,13 +57,13 @@ def test_search_controller():
     search_controller.open_ai = MockOpenAI()
 
     # Test first search
-    first_search_results, first_search_id = asyncio.run(search_controller.search('animal facts'))
-    assert first_search_id is not None
+    first_search_results, first_search_history = asyncio.run(search_controller.search('animal facts'))
+    assert first_search_history.id is not None
     assert first_search_results == animal_results
 
     # Test second search
-    second_search_results, second_search_id = asyncio.run(search_controller.search('dog breeds', search_id=first_search_id)) 
-    assert second_search_id == first_search_id
+    second_search_results, second_search_history = asyncio.run(search_controller.search('dog breeds', search_id=first_search_history.id)) 
+    assert second_search_history.id == first_search_history.id
     assert second_search_results == dog_results
 
 
