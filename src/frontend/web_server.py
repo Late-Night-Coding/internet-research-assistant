@@ -10,7 +10,7 @@ app = Flask(__name__)
 def get_results(query):
     start_time = time.time()
     searcher = search_controller.SearchController()
-    result = get_event_loop().run_until_complete(searcher.search(query))
+    result, search_id = get_event_loop().run_until_complete(searcher.search(query))
     result_list = []
     for topic in result.topics:
         link_list = []
