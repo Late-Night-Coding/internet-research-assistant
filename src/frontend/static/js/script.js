@@ -4,10 +4,17 @@ const currInputQuery = input.value;
 // Get the search form and its input element
 const searchForm = document.querySelector('.searchbar form');
 const searchInput = searchForm.querySelector('input[name="query"]');
+const searchIdInput = searchForm.querySelector('input[name="id"]');
 
 // Function to perform lookup search
 function performSearch(query) {
   searchInput.value = query; // set the value of the search input to the query
+
+  // set the search id if this is a recursive search
+  const searchId = window.searchId;
+  if(searchId)
+    searchIdInput.value = searchId; 
+
   searchForm.submit();
 }
 

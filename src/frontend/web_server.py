@@ -61,12 +61,18 @@ def search():
     # extract (query, id) from url arguments
     args = request.args
     search_query = args.get('query').strip()
-    search_id = args.get('id') if 'id' in args else None
+    search_id = args.get('id', None) or None
 
     # TODO: handle requests asynchronously (async / await)
     results, search_history = get_results(search_query, search_id)
 
-    return render_template('search.html', results=results, query=search_query, id=search_history.id)
+    return render_template(
+        template_name_or_list='search.html',
+        results=results,
+        query=search_query,
+        id=search_history.id,
+        history=search_history.get_keyword_history()
+    )
 
 
 # Entry point
