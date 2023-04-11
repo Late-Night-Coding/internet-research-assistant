@@ -36,6 +36,7 @@
     </div>
 
 
+
     <!-- Render each search term in the history -->
     <div class="searchHistory">
         <h3>Topic Tree</h3>
@@ -53,6 +54,11 @@
 {% if id is not none %} 
     <script>window.searchId = "{{id}}"; </script>
 {% endif %}
+
+</div>
+
+<div class="loader"></div>
+
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
