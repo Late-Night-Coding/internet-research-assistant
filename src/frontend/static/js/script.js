@@ -4,14 +4,32 @@ const currInputQuery = input.value;
 // Get the search form and its input element
 const searchForm = document.querySelector('.searchbar form');
 const searchInput = searchForm.querySelector('input[name="query"]');
+// Get the loading icon
+const loader = document.querySelector(".loader");
 
 // Function to perform lookup search
 function performSearch(query) {
   searchInput.value = query; // set the value of the search input to the query
   searchForm.submit();
+  loader.classList.remove('loader-hidden'); // show the loading icon when backend is processing
 }
 
-// global vars to keep track of menu
+// Show the loading icon when backend is processing
+searchForm.addEventListener("submit", function(event) {
+    loader.classList.remove('loader-hidden');
+})
+
+// Hide the loading icon when the page finishes loading
+window.addEventListener("load", () => {
+    
+    loader.classList.add("loader-hidden");
+
+    loader.addEventListener("transitionend", () => {
+        document.body.removeChild("loader");
+    })
+});
+
+// Global vars to keep track of menu
 let menuShown = false;
 const scopes = document.querySelectorAll(".searchResult");
 var menu = document.querySelector(".menu");
@@ -44,7 +62,7 @@ for(s of scopes){
     });
 }
 
-// perform search when button is pressed
+// Perform search when button is pressed
 const lookupbtn = document.getElementById("lookup-btn");
 document.addEventListener("click", function(event){
 
