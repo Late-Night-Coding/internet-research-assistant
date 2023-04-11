@@ -50,7 +50,7 @@ async def download_page(url: str) -> WebContent:
 
         except asyncio.TimeoutError:
             print("site timeout occurred")
-            return WebContent("", "", "")
+            return WebContent("", "", url)
 
         except:
-            return WebContent("", "", "")
+            return WebContent("", "", url)

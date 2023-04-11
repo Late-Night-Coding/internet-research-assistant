@@ -1,12 +1,21 @@
-from data.url_category import URLCategory
+from data.url_category import URLCategory, classify_link
+from data.web_content import WebContent
 
+
+# Factory method for URLs.
+def create_url_from_web_content(web_content: WebContent):
+    return URL(
+        link=web_content.url,
+        category=classify_link(web_content.url),
+        title=web_content.page_title
+    )
 
 class URL:
     def __init__(self, link: str, category: URLCategory, title: str):
         self.link = link
         self.category = category
 
-        self.name = self.__title_shortener(title) + link.split("//")[1].split("/")[0].replace("www.", "")
+        self.name = self.__title_shortener(title) + ": " + link.split("//")[1].split("/")[0].replace("www.", "")
 
 
     #############################################################################################################
@@ -46,7 +55,7 @@ class URL:
                 texts = title.split(" ")
                 i = 0
 
-                while len(new_text) < 50:
+                while len(new_text) < 50 and i < len(texts):
                     new_text += texts[i] + " "
                     i += 1
                 new_text += "..."

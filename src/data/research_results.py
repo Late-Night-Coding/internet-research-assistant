@@ -15,11 +15,10 @@ class ResearchResults:
     #  * Date Started:        03/28/2023
     #  *
     #  * Description:
-    #  * creates a new topic with a name, description and list of url
+    #  * add a topic to the results
     #############################################################################################################
-    def add_topic(self, topic: str, description: str, URLlist: list, page_contents: list) -> None:
-        newTopic = TopicResults(topic, description, URLlist, page_contents)
-        self.topics.append(newTopic)
+    def add_topic(self, topic: TopicResults) -> None:
+        self.topics.append(topic)
 
     #############################################################################################################
     #  * Function:            getTopics
