@@ -16,7 +16,7 @@ class OpenAI:
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
         self.endpoint = "https://api.openai.com/v1/chat/completions"
 
-    async def __request(self, messages):
+    async def __request(self, messages, timeout=None):
         data = {
                     "model": "gpt-3.5-turbo",
                     "messages": messages,
@@ -26,7 +26,7 @@ class OpenAI:
                     "presence_penalty": 1.1,
                 }
         print(messages)
-        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=60)) as session:
             headers = {"Authorization": f"Bearer {self.key}"}
             async with session.post(self.endpoint, headers=headers, json=data) as resp:
                 return await resp.json()
