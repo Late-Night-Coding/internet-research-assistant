@@ -1,3 +1,4 @@
+import asyncio.exceptions
 import sys
 from typing import Union
 import aiohttp
@@ -25,7 +26,7 @@ class OpenAI:
                     "presence_penalty": 1.1,
                 }
         print(messages)
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
             headers = {"Authorization": f"Bearer {self.key}"}
             async with session.post(self.endpoint, headers=headers, json=data) as resp:
                 return await resp.json()
@@ -47,9 +48,11 @@ class OpenAI:
                 text_response: str = response_obj["choices"][0]['message']['content'].strip()
                 return text_response
             except KeyError:
-                print("received error message: " + response_obj, file=sys.stderr)
+                print("received error message: " + str(response_obj), file=sys.stderr)
                 print("retrying " + str(3-i) + " more times")
                 continue
+            except asyncio.TimeoutError or asyncio.exceptions.TimeoutError as e:
+                raise e
         
         return ""
 
