@@ -9,6 +9,7 @@ from flask import Flask, render_template, request, abort
 
 app = Flask(__name__)
 
+# Change this for a real search vs a dummy search
 # searcher = search_controller.SearchController()
 searcher = get_dummy_search_controller()
 

@@ -16,7 +16,7 @@ class OpenAI:
         self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
         self.endpoint = "https://api.openai.com/v1/chat/completions"
 
-    async def __request(self, messages, timeout=None):
+    async def __request(self, messages):
         data = {
                     "model": "gpt-3.5-turbo",
                     "messages": messages,
