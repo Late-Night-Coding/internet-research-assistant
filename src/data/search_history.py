@@ -8,3 +8,6 @@ class SearchHistory:
 
     def get_keyword_history(self):
         return self.keyword_history
+
+    def __str__(self) -> str:
+        return " > ".join(self.keyword_history)

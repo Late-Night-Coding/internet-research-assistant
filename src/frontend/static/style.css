@@ -129,6 +129,7 @@ body{
 
     .contentScreen .searchbar>form{
       width: 100%;
+      position: relative;
     }
 
     .searchResults{
@@ -230,6 +231,18 @@ body{
 
     .menu:hover{
       background-color: #616161;
+    }
+
+
+    .searchHistory{
+      position: absolute;
+      top: 230px;
+      left: 990px;
+      width: 300px;
+    }
+
+    .searchHistory>p::before{
+      content: '↪ '
     }
 
     .loader{
