@@ -1,64 +1,49 @@
+import asyncio
+import time
+from async_util import get_event_loop
+from data.research_results import ResearchResults
+from data.search_history import SearchHistory
+from dummy_search_controller import get_dummy_search_controller
+import search_controller
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-def get_results(query):
-    # TODO: This is a dummy function. Implement it later
-    if(query == ""):
-        return [
-        {
-            "title": "Sport",
-            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-            ],
-            "reason": "This was the first item returned by google search" 
-        },
-        {
-            "title": "Pitching",
-            "description": "Pitching is a fundamental aspect of baseball, and it's important to understand the different types of pitches that pitchers can throw in order to effectively analyze and appreciate the game.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+# searcher = search_controller.SearchController()
+searcher = get_dummy_search_controller()
 
-            ],
-            "reason": "This was the first item returned by bing search" 
-        },
-        {
-            "title": "MLB",
-            "description": "Major League Baseball (MLB) is a professional baseball organization and the oldest major professional sports league in the world.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
+def get_results(query, search_id=None) -> tuple[ResearchResults, SearchHistory]:
+    start_time = time.time()
 
-            ],
-            "reason": "This was the second item returned by google search" 
-        },
-        ]
-    else: 
-        return [
-        {
-            "title": "Sport",
-            "description": "Baseball is a bat-and-ball sport between two teams of nine players each, taking turns batting and fielding.",
-            "links": [
-                {"url": "https://wikiexample0.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 1"},
-                {"url": "https://wikiexample2.com/", "link_hue": "28", "link_type": "Wiki", "name": "Wiki Link 2"},
-                {"url": "https://youtube.com/", "link_hue": "0", "link_type": "Youtube", "name": "Youtube Link 1"},
-                {"url": "https://otherexample.com/", "link_hue": "186", "link_type": "Other", "name": "Other Link 1"}
-            ],
-            "reason": "This was the first item returned by google search" 
-        },
-        ]
+    # run the async search function synchronously
+    result, search_history = get_event_loop().run_until_complete(searcher.search(query, search_id))
 
-    
-    
+    # force typing
+    result: ResearchResults
+    search_history: SearchHistory
+
+    # create the topic for flask
+    result_list = []
+    for topic in result.topics:
+        link_list = []
+        for url in topic.url_list:
+            link_list.append({
+                "url": url.link,
+                "link_hue": str(url.category.color),
+                "link_type": url.category.name,
+                "name": url.name  # You may want to add a name attribute to URL class and retrieve it here
+            })
+        result_list.append({
+            "title": topic.topic_name,
+            "description": topic.topic_description,
+            "links": link_list
+        })
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time} seconds")
+
+    return result_list, search_history
 
 
 @app.route('/')
@@ -66,23 +51,34 @@ def homepage():
     """This function is called by flask every time a user visits the homepage.
     Look inside the `frontend/templates/homepage.html` file to see the content that is rendered.
     """
-    return render_template('homepage.html')
+    return render_template('homepage.html', id=None)
+
 
 @app.route("/search")
 def search():
     """Called on each search query"""
 
-    search_query = request.args.get('query') 
+    # extract (query, id) from url arguments
+    args = request.args
+    search_query = args.get('query').strip()
+    search_id = args.get('id', None) or None
 
     # TODO: handle requests asynchronously (async / await)
-    results = get_results(search_query)
+    results, search_history = get_results(search_query, search_id)
 
-    return render_template('search.html', results=results, query=search_query)
+    return render_template(
+        template_name_or_list='search.html',
+        results=results,
+        query=search_query,
+        id=search_history.id,
+        history=search_history.get_keyword_history()
+    )
 
 
 # Entry point
 def start():
     app.run(host="0.0.0.0", port=8080)
+
 
 if __name__ == '__main__':
     start()

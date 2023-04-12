@@ -17,17 +17,15 @@
         <div class="menu">
             <i class="lookup" id="lookup-btn">Lookup</i>
         </div>
-        {% for result in results: %}
+        {% for result in results %}
         <br>
         <div class="searchResult">
             <h2>{{ result.title }}</h2>
             <p>{{ result.description }}</p>
-            <h3>Reason for including</h3>
-            <p>{{ result.reason }}</p>
             <h3>Related Links</h3>
             <div class="linksList">
                 {% for link in result.links %}
-                <a class="linksList_link"  href="{{ link.url }}" style="--link-hue: {{ link.link_hue }}">
+                <a class="linksList_link"  href="{{ link.url }}" style="--link-hue: {{ link.link_hue }}" target="_blank">
                     <span class="linksList_url">{{ link.name }}</span>
                     <span class="linksList_type">{{ link.link_type }}</span>
                 </a>
@@ -39,7 +37,28 @@
 
 
 
+    <!-- Render each search term in the history -->
+    <div class="searchHistory">
+        <h3>Topic Tree</h3>
+        <marquee>this needs to be restyled</marquee>
+
+        {% for keyword in history %}
+        <p>{{keyword}}</p>
+        {% endfor %}
+    </div>
+
 </div>
+
+
+<!-- This puts the {{id}} in /search?id={{id}} -->
+{% if id is not none %} 
+    <script>window.searchId = "{{id}}"; </script>
+{% endif %}
+
+</div>
+
+<div class="loader"></div>
+
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
