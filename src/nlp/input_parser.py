@@ -8,6 +8,7 @@ stop_words = set(nltk.corpus.stopwords.words('english'))
 MIN_WORD_LEN = 3
 MAX_WORD_LEN = 20
 
+
 class InputParser:
 
     #############################################################################################################
@@ -71,6 +72,20 @@ class InputParser:
         return word_tokens
 
     #############################################################################################################
+    #  * Function:            __validate_query
+    #  * Author:              Peter Pham (pxp180041)
+    #  * Date Started:        04/14/2023
+    #  *
+    #  * Description:
+    #  * Validates the query to makes sure the user didn't enter in anything too long or nothing
+    #############################################################################################################
+    def __validate_query(self, tokens):
+        if not tokens:
+            raise RuntimeError
+        if len(tokens) > 200:
+            raise IndexError
+
+    #############################################################################################################
     #  * Function:            parse
     #  * Author:              Peter Pham (pxp180041)
     #  * Date Started:        03/09/2023
@@ -79,15 +94,17 @@ class InputParser:
     #  * Tokenize the sentences and remove everything that isn't a word
     #############################################################################################################
     def parse(self, sentence):
-        # sentences = nltk.sent_tokenize(sent)
+
         tokens = self.__tokenize(sentence)
+        self.__validate_query(tokens)
         tokens = self.__remove_stop_words(tokens)
         tokens = self.__lemmatize(tokens)
         sentence_tags = nltk.pos_tag(tokens)
         return tokens, sentence_tags
 
+
 if __name__ == "__main__":
-    sent_short = "what is the capital of the United States?"
+    sent_short = ""
     sent_long = "Experiments have been carried out for single crystalline silicon panels. Results are discussed and the increase in efficiency is investigated and understood. Operating problems are analyzed and the advantages of using underwater solar panels are pointed out."
 
     sent = sent_short

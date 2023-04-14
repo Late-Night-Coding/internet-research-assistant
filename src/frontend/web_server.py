@@ -68,6 +68,10 @@ def search():
         results, search_history = get_results(search_query, search_id)
     except asyncio.exceptions.TimeoutError:
         abort(504)
+    except RuntimeError:
+        abort(412)
+    except IndexError:
+        abort(413)
 
     return render_template(
         template_name_or_list='search.html',
@@ -86,6 +90,26 @@ def errorTimeout(error):
         template_name_or_list='error.html',
         error_code=error_code,
         error_message=error_message), 504
+
+@app.errorhandler(412)
+def errorTimeout(error):
+    print(str(error))
+    error_code = "412"
+    error_message = "Looks like your query was empty. Please try again"
+    return render_template(
+        template_name_or_list='error.html',
+        error_code=error_code,
+        error_message=error_message), 412
+
+@app.errorhandler(413)
+def errorTimeout(error):
+    print(str(error))
+    error_code = "413"
+    error_message = "Looks like your query was too long. Please try again"
+    return render_template(
+        template_name_or_list='error.html',
+        error_code=error_code,
+        error_message=error_message), 413
 
 # Entry point
 def start():
