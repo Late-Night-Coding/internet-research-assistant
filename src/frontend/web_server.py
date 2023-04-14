@@ -5,10 +5,11 @@ from data.research_results import ResearchResults
 from data.search_history import SearchHistory
 from dummy_search_controller import get_dummy_search_controller
 import search_controller
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 
 app = Flask(__name__)
 
+# Change this for a real search vs a dummy search
 # searcher = search_controller.SearchController()
 searcher = get_dummy_search_controller()
 
@@ -62,9 +63,11 @@ def search():
     args = request.args
     search_query = args.get('query').strip()
     search_id = args.get('id', None) or None
-
-    # TODO: handle requests asynchronously (async / await)
-    results, search_history = get_results(search_query, search_id)
+    try:
+        # TODO: handle requests asynchronously (async / await)
+        results, search_history = get_results(search_query, search_id)
+    except asyncio.exceptions.TimeoutError:
+        abort(504)
 
     return render_template(
         template_name_or_list='search.html',
@@ -74,6 +77,15 @@ def search():
         history=search_history.get_keyword_history()
     )
 
+@app.errorhandler(504)
+def errorTimeout(error):
+    print(str(error))
+    error_code = "504"
+    error_message = "Looks like OpenAI took too long getting back to us. Please head back to the main screen and try again"
+    return render_template(
+        template_name_or_list='error.html',
+        error_code=error_code,
+        error_message=error_message), 504
 
 # Entry point
 def start():
