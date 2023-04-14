@@ -63,11 +63,11 @@ class OpenAI:
         keyword = keyword_history[-1]  # Example: 'beagle'
 
         # create a prompt for chat-gpt to get useful search terms
-        system_message = "You are a research assistant that can come up with child topics related to the keywords and topic provided in a bulleted list"
+        system_message = "You are a research assistant that can come up with child topics related to the keywords and topics provided in a bulleted list in descending order of relevance to the main topic. Do not number the list. Each item in the list should also serve as a useful search query for Google or Bing to find out more about the topic. The total number of child topics cannot exceed 5 and there can only be a total of 6 words per child topic."
         if context:
-            user_prompt = f"What are some relevant child topics for the following query: '{keyword}', given that its parent topic is '{context}'? Format your response as a bulleted list."
+            user_prompt = f"What are some relevant child topics for the following query: '{keyword}', given that its parent topic is '{context}'?"
         else:
-            user_prompt = f"What are some relevant child topics for the following query: '{keyword}'? Format your response as a bulleted list."
+            user_prompt = f"What are some relevant child topics for the following query: '{keyword}'?"
         
         # send the chat message & format the response as a list of keyword topics
         text_response = await self.__chat(system_message, user_prompt)
