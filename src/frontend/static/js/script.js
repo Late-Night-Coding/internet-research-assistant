@@ -105,8 +105,15 @@ window.addEventListener("resize", function(){
     updateMenuLocation();
 });
 
-// Info icon
-const circleInfoIcon = document.querySelector('#info-icon');
-circleInfoIcon.addEventListener('click', function() {
-    console.log("icon clicked");
-});
+
+const modal = document.querySelector(".modal");
+
+// Info icon - open popup
+function openPopup(){
+    modal.showModal();
+}
+
+// Got it botton - close popup
+function closePopup(){
+    modal.close();
+}
