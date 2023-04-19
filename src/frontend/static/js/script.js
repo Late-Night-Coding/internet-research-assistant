@@ -29,7 +29,7 @@ searchForm.addEventListener("submit", function(event) {
 })
 
 // Hide the loading icon when the page finishes loading
-window.addEventListener("load", () => {
+window.addEventListener("pageshow", () => {
     
     loader.classList.add("loader-hidden");
 
@@ -116,4 +116,8 @@ function openPopup(){
 // Got it botton - close popup
 function closePopup(){
     modal.close();
+}
+
+function goBack() {
+    window.history.go(-1);
 }
