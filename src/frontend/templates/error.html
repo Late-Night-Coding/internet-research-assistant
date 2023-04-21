@@ -2,8 +2,14 @@
 {% block title %}Internet Research Assistant{% endblock %}
 {% block body %}
 <div id="main">
-        <div class="fof">
-                <h1>Error {{ error_code }}: {{ error_message }}</h1>
+        <div class="top-section" name="error-message">
+                <div class="h1-wrapper">  
+                        <h1>{{ error_code }}</h1>
+                </div>
+        </div>
+        <div class="bottom-section">
+                <p>{{ error_message }}</p>
+                <button class="btn" onclick="goBack()">Go Back</button>
         </div>
 </div>
 {% endblock %}
