@@ -14,7 +14,19 @@ search_box.clear()
 search_box.send_keys("baseball")
 search_box.send_keys(Keys.RETURN)
 
-assert driver.getPageSource().contains("baseball")
+#Use of Amir's try/except method
+try:
+    #Gets stuff from the website
+    search_results = driver.find_elements(By.CLASS_NAME, "searchResult")
+    search_links = driver.find_elements(By.CLASS_NAME, "linksList_link") 
 
-driver.close()
-driver.quit()
+    #Asserts whether or not relevant items are on the website or not
+    assert len(search_results) != 0
+    assert len(search_links) != 0
+    print("Test result: PASS.")
+except AssertionError:
+    print("Test result: FAIL.")
+finally:
+    # Close the browser window and print summary
+    driver.quit()
+    print("Test Complete.")

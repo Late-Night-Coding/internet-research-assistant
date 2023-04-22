@@ -19,13 +19,21 @@ search_box.send_keys(Keys.RETURN)
 #Find links
 links = driver.find_elements(By.CLASS_NAME, "linksList_link")
 
-for link in links:
-    hue = link.getCssValue("link-hue")
-    hueHex = Color.from_string(hue)
-    if(hueHex == '#FFFFFF'):
-        assert False
+#Used from Amir's test cases
+try:
+    for link in links:
+        #get the RGBA value of the link class background
+        hue = link.value_of_css_property("background-color")
 
-assert True
-
-driver.close()
-driver.quit()
+        #convert the RGBA to HEX
+        hueHex = Color.from_string(hue).hex
+        if(hue == '#ffffff'):
+            assert False
+    assert True
+    print("Test result: PASS.")
+except AssertionError:
+    print("Test result: FAIL.")
+finally:
+    # Close the browser window and print summary
+    driver.quit()
+    print("Test Complete.")
