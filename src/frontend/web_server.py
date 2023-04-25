@@ -13,11 +13,11 @@ app = Flask(__name__)
 # searcher = search_controller.SearchController()
 searcher = get_dummy_search_controller()
 
-def get_results(query, search_id=None) -> tuple[ResearchResults, SearchHistory]:
+def get_results(query, summary_len: int, search_id=None) -> tuple[ResearchResults, SearchHistory]:
     start_time = time.time()
 
     # run the async search function synchronously
-    result, search_history = get_event_loop().run_until_complete(searcher.search(query, search_id))
+    result, search_history = get_event_loop().run_until_complete(searcher.search(query, summary_len, search_id))
 
     # force typing
     result: ResearchResults
@@ -62,10 +62,11 @@ def search():
     # extract (query, id) from url arguments
     args = request.args
     search_query = args.get('query').strip()
+    summary_len = int(args.get('summary-len').strip())
     search_id = args.get('id', None) or None
     try:
         # TODO: handle requests asynchronously (async / await)
-        results, search_history = get_results(search_query, search_id)
+        results, search_history = get_results(search_query, summary_len, search_id)
     except asyncio.exceptions.TimeoutError:
         abort(504)
     except RuntimeError:

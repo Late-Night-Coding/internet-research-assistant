@@ -22,7 +22,8 @@ research_results: dict[tuple[str], ResearchResults] = {
 
 # create dummy services
 class MockSearchProcessor(SearchProcessor):
-    async def search(self, keywords: list[str]) -> ResearchResults:
+    async def search(self, keywords: list[str], summary_len: int) -> ResearchResults:
+        assert summary_len == 2
         return research_results[tuple(keywords)]
     
 class MockOpenAI(OpenAI):
@@ -57,12 +58,12 @@ def test_search_controller():
     search_controller.open_ai = MockOpenAI()
 
     # Test first search
-    first_search_results, first_search_history = asyncio.run(search_controller.search('animal facts'))
+    first_search_results, first_search_history = asyncio.run(search_controller.search('animal facts', 2))
     assert first_search_history.id is not None
     assert first_search_results == animal_results
 
     # Test second search
-    second_search_results, second_search_history = asyncio.run(search_controller.search('dog breeds', search_id=first_search_history.id)) 
+    second_search_results, second_search_history = asyncio.run(search_controller.search('dog breeds', 2, search_id=first_search_history.id)) 
     assert second_search_history.id == first_search_history.id
     assert second_search_results == dog_results
 

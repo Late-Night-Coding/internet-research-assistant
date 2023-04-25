@@ -17,7 +17,7 @@ class SearchController:
         self.open_ai = OpenAI()
         self.history_map: dict[str, SearchHistory] = {}
 
-    async def search(self, query: str, search_id: str = None) -> tuple[ResearchResults, SearchHistory]:
+    async def search(self, query: str, summary_len: int, search_id: str = None) -> tuple[ResearchResults, SearchHistory]:
         results = None
 
         # extract keywords from query
@@ -41,7 +41,7 @@ class SearchController:
         if len(search_keywords) > 5:
             search_keywords = search_keywords[:5]
 
-        results = await self.search_processor.search(search_keywords)
+        results = await self.search_processor.search(search_keywords, summary_len)
 
         return results, search_history
 

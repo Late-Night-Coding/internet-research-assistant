@@ -1,11 +1,24 @@
 <div class="searchbar">
 <form action="/search" method="get">
-    <input id="search-bar" name="query" type="text" placeholder="Search..." value="{{query}}">
-    <button type="submit" value="Go"><i class="fa fa-search"></i></button>
+    <div class="searchbar-row">
+        <input id="search-bar" name="query" type="text" placeholder="Search..." value="{{query}}">
+        <button type="submit" value="Go"><i class="fa fa-search"></i></button>
+    </div>
 
     <!-- This puts the {{id}} in /search?id={{id}} -->
     {% if id is not none %}
     <input name="id" type="hidden" value="{{id}}">
     {% endif %}
+
+    <!-- Description length slider -->
+    <div class="summary-length-slider">
+        <label>Summary Length</label>
+        <input id="summary-len" name="summary-len" type="range" min="1" max="10">
+        <span id="sentence-length-label"></span>
+        </input>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+
 </form>
 </div>

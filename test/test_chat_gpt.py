@@ -7,12 +7,12 @@ def test_summarize():
     dog_wiki_summary = """The dog (Canis familiaris[4][5] or Canis lupus familiaris[5]) is a domesticated descendant of the wolf.
         Also called the domestic dog, it is derived from the extinct Pleistocene wolf,[6][7] and the modern wolf is the dog's nearest living relative.[8]
         Dogs were the first species to be domesticated[9][8] by hunter-gatherers over 15,000 years ago[7] before the development of agriculture."""
-    dog_description = asyncio.run(open_ai.summarize("dog", dog_wiki_summary))
+    dog_description = asyncio.run(open_ai.summarize("dog", dog_wiki_summary, 2))
 
     assert isinstance(dog_description, str)
     assert len(dog_description) > 0
     
-    print(f"Dear tester, please validate this description of 'dog':\n{dog_description}")
+    print(f"Dear tester, please validate this 2-sentence description of 'dog':\n{dog_description}")
 
 def test_non_recursive_get_search_terms():
     open_ai = OpenAI()

@@ -74,7 +74,7 @@ class OpenAI:
         response = self.__format(text_response, format='return_list')
         return response
 
-    async def summarize(self, keyword: str, web_content_summary: str) -> str:
+    async def summarize(self, keyword: str, web_content_summary: str, summary_len: int) -> str:
         """Return a description of a keyword given a summary of scraped web content"""
 
         # prevent large prompts
@@ -82,8 +82,8 @@ class OpenAI:
             web_content_summary = web_content_summary[:OPENAI_MAX_PROMPT_LEN]
         
         # create a prompt for chat-gpt to summarize a topic given web content
-        system_message = "You are an assistant that can provide accurate and concise descriptions of topics. The user will provide a computer-generated summary of content scraped from the web that may or may not be useful for your task."
-        user_prompt = f"Write a 3-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
+        system_message = f"You are an assistant that can provide accurate and concise {summary_len}-sentence descriptions of topics. The user will provide a computer-generated summary of content scraped from the web that may or may not be useful for your task."
+        user_prompt = f"Write a {summary_len}-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
 
         # send the chat message & format the response as a list of keyword topics
         text_response = await self.__chat(system_message, user_prompt)
