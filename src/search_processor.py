@@ -9,7 +9,7 @@ class SearchProcessor:
         self.search_aggregator = SearchAggregator()
         self.topic_summarizer = TopicSummarizer()
 
-    async def search(self, keywords: list[str]) -> ResearchResults:
+    async def search(self, keywords: list[str], summary_len:int) -> ResearchResults:
 
         # Create ResearchResult object
         research_results = ResearchResults()
@@ -17,7 +17,7 @@ class SearchProcessor:
         # Create tasks for each keyword to search asynchronously
         tasks: list[asyncio.Task[TopicResults]] = []
         for keyword in keywords:
-            task = asyncio.create_task(self.__search_keyword(keyword))
+            task = asyncio.create_task(self.__search_keyword(keyword, summary_len))
             tasks.append(task)
 
         # Gather the results of all tasks
@@ -30,11 +30,11 @@ class SearchProcessor:
 
         return research_results
 
-    async def __search_keyword(self, keyword) -> TopicResults:
+    async def __search_keyword(self, keyword, summary_len: int) -> TopicResults:
         # use search engines to obtain urls relating to the keyword
         links = await self.search_aggregator.search(keyword)
 
         # Obtain summary from links
-        topic_info = await self.topic_summarizer.summarize_topic(links, keyword)
+        topic_info = await self.topic_summarizer.summarize_topic(links, keyword, summary_len)
 
         return topic_info

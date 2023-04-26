@@ -29,8 +29,9 @@ class MockSearchAggregator(SearchAggregator):
         return mock_search_links[query]
     
 class MockTopicSummarizer(TopicSummarizer):
-    async def summarize_topic(self, links: list[str], keyword: str) -> TopicResults:
+    async def summarize_topic(self, links: list[str], keyword: str, summary_len: int) -> TopicResults:
         assert links == mock_search_links[keyword]
+        assert summary_len == 2
         return mock_topic_results[keyword]
     
 def test_search_processor():
@@ -43,7 +44,7 @@ def test_search_processor():
     search_processor.topic_summarizer = MockTopicSummarizer()
 
     # Test search
-    research_results = asyncio.run(search_processor.search(['pikachu', 'charzard']))
+    research_results = asyncio.run(search_processor.search(['pikachu', 'charzard'], 2))
 
     # Validate results
     topics = research_results.get_topics()

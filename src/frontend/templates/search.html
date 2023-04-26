@@ -6,13 +6,16 @@
     <h1>Internet Research Assistant</h1>
 
     <!-- Display the search bar at the top of the screen -->
-    <div>{% include "searchbar.html" %} <a href="/"><button class="reset-btn">Reset</button></a></div>
+    <div class="search-header">
+        {% include "searchbar.html" %}
+        <a href="/"><button class="reset-btn">Reset</button></a>
+    </div>
 
     <div class="hint">
-        <p>Hint: Highlight words to lookup more!  <i id="info-icon" onclick="openPopup()" class="fa fa-info-circle"></i></p>
+        <p>TIPS  <i id="info-icon" onclick="openPopup()" class="fa fa-info-circle"></i></p>
     </div>
     <dialog class="modal">
-        <h3>Hint</h3><hr><br>
+        <h3>Tips</h3><hr><br>
         <p>To explore a topic in more depth,<br><br>
             <b>1.</b> enter search terms in the search bar <br> 
             <b>2.</b> highlight keywords and click Lookup <br></p>
@@ -47,8 +50,6 @@
     <!-- Render each search term in the history -->
     <div class="searchHistory">
         <h3>Topic Tree</h3>
-        <!-- <marquee>Keep searching to grow your topic tree! Click refresh button to clear the tree.</marquee> -->
-
         {% for keyword in history %}
         <p>{{keyword}}</p>
         {% endfor %}

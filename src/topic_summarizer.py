@@ -79,7 +79,7 @@ class TopicSummarizer:
 
         return web_pages
     
-    async def __get_description_from_pages(self, keyword: str, web_pages: list[WebContent]) -> str:
+    async def __get_description_from_pages(self, keyword: str, web_pages: list[WebContent], summary_len: int) -> str:
         """Given a keyword and a list of downloaded web pages, filter the wiki pages, and return an appropriate summary for the keyword"""
 
         # Filter for wiki pages only
@@ -98,7 +98,7 @@ class TopicSummarizer:
             all_summaries += self.summarize_page_content_fn(page.content, [keyword])
 
         # use openai to summarize the consolidated summaries
-        return await self.open_ai.summarize(keyword, all_summaries)
+        return await self.open_ai.summarize(keyword, all_summaries, summary_len)
 
 
     #############################################################################################################
@@ -113,7 +113,7 @@ class TopicSummarizer:
     #  * Parameters:
     #  * links              list()              list of all the links to summarize
     #############################################################################################################
-    async def summarize_topic(self, links: list[str], keyword: str) -> TopicResults:
+    async def summarize_topic(self, links: list[str], keyword: str, summary_len: int) -> TopicResults:
 
         # To avoid downloading too much, limit the number of total links we download.
         links = self.__limit_links(links)
@@ -122,7 +122,7 @@ class TopicSummarizer:
         web_pages = await self.__download_all_pages(links)
 
         # Get the topic description from the web pages
-        topic_description = await self.__get_description_from_pages(keyword, web_pages)
+        topic_description = await self.__get_description_from_pages(keyword, web_pages, summary_len)
 
         # create URL objects
         urls = [

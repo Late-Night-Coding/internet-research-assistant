@@ -57,9 +57,10 @@ class MockOpenAI(OpenAI):
     async def get_search_keywords(self, history) -> list[str]:
         raise "Do not call this"
 
-    async def summarize(self, keyword: str, web_content_summary: str) -> str:
+    async def summarize(self, keyword: str, web_content_summary: str, summary_len: int) -> str:
         assert keyword == "pokemon"
         assert web_content_summary == "Pokemon Wiki Summary.Nintendo Wiki Summary."
+        assert summary_len == 2
         return f"pokemon summary"
 
 
@@ -74,7 +75,7 @@ def test_topic_summarizer():
     topic_summarizer.summarize_page_content_fn = mock_summarize
 
     # get topic results
-    topic_results = asyncio.run(topic_summarizer.summarize_topic(list(mock_pages.keys()), "pokemon"))
+    topic_results = asyncio.run(topic_summarizer.summarize_topic(list(mock_pages.keys()), "pokemon", 2))
 
     # validate name & description
     assert topic_results.get_topic_description() == 'pokemon summary'

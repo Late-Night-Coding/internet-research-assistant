@@ -12,7 +12,7 @@ from search_processor import SearchProcessor
 from data.url_category import wiki_cat, youtube_cat, social_media_cat, other_cat
 
 class DummySearchProcessor(SearchProcessor):
-    async def search(self, keywords: list[str]) -> ResearchResults:
+    async def search(self, keywords: list[str], summary_len: int) -> ResearchResults:
         await asyncio.sleep(1)
         research_results = ResearchResults()
         for keyword in keywords:
@@ -39,7 +39,7 @@ class DummyOpenAI(OpenAI):
             for i in range(3)
         ]
 
-    async def summarize(self, keyword: str, web_content_summary: str) -> str:
+    async def summarize(self, keyword: str, web_content_summary: str, summay_len: int) -> str:
         raise "Do not call this"
 
     
