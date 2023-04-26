@@ -96,7 +96,7 @@ body{
   .summary-length-slider{
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
+    margin-top: 25px;
     padding: 5px;
     border-radius: 5px;
     background-color: #e7e7e7;
@@ -183,7 +183,7 @@ body{
         flex-direction: column;
         align-items: stretch;
         margin: 30px min(150px, max(100% - 700px, 0px));
-        max-width: 800px;
+        max-width: 1000px;
     }
 
     .search-header{
@@ -285,8 +285,11 @@ body{
     /* Info icon and popup */
 
     .hint{
-      margin-top: 10px;
+      margin-right: 30px;
       font-size: 14pt;
+      position: absolute;
+      top: 0;
+      right: 0;
     }
 
     #info-icon{
@@ -372,7 +375,7 @@ body{
     .searchHistory{
       position: absolute;
       top: 230px;
-      left: 990px;
+      left: 1200px;
       width: 300px;
     }
 
