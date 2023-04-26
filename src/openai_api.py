@@ -1,7 +1,10 @@
-import asyncio.exceptions
+import re
 import sys
-from typing import Union
 import aiohttp
+import asyncio.exceptions
+
+from typing import Union
+from data.cache import Cache
 from data.search_history import SearchHistory
 from web_search.request_throttler import RequestThrottler
 
@@ -68,7 +71,7 @@ class OpenAI:
             user_prompt = f"What are some relevant child topics for the following query: '{keyword}', given that its parent topic is '{context}'?"
         else:
             user_prompt = f"What are some relevant child topics for the following query: '{keyword}'?"
-        
+
         # send the chat message & format the response as a list of keyword topics
         text_response = await self.__chat(system_message, user_prompt)
         response = self.__format(text_response, format='return_list')
@@ -77,24 +80,36 @@ class OpenAI:
     async def summarize(self, keyword: str, web_content_summary: str, summary_len: int) -> str:
         """Return a description of a keyword given a summary of scraped web content"""
 
-        # prevent large prompts
-        if len(web_content_summary) > OPENAI_MAX_PROMPT_LEN:
-            web_content_summary = web_content_summary[:OPENAI_MAX_PROMPT_LEN]
-        
-        # create a prompt for chat-gpt to summarize a topic given web content
-        system_message = f"You are an assistant that can provide accurate and concise {summary_len}-sentence descriptions of topics. The user will provide a computer-generated summary of content scraped from the web that may or may not be useful for your task."
-        user_prompt = f"Write a {summary_len}-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
+        cache = Cache()
 
-        # send the chat message & format the response as a list of keyword topics
-        text_response = await self.__chat(system_message, user_prompt)
-        response = self.__format(text_response, format='return_str')
+        if cache.isCached(keyword):
+            print("cache found getting from cache")
+            text_response = cache.getCache(keyword)
+        else:
+            print("no cache yet querying openai")
+            # prevent large prompts
+            new_summary_len = 10
+            if len(web_content_summary) > OPENAI_MAX_PROMPT_LEN:
+                web_content_summary = web_content_summary[:OPENAI_MAX_PROMPT_LEN]
+
+            # create a prompt for chat-gpt to summarize a topic given web content
+            system_message = f"You are an assistant that can provide accurate and concise {new_summary_len}-sentence descriptions of topics. The user will provide a computer-generated summary of content scraped from the web that may or may not be useful for your task."
+            user_prompt = f"Write a {new_summary_len}-sentence description of: '{keyword}'. Here is some info about '{keyword}' I scraped from the web: {web_content_summary}"
+
+            # send the chat message & format the response as a list of keyword topics
+            text_response = await self.__chat(system_message, user_prompt)
+            cache.cache(keyword, text_response)
+
+        response = self.__format(text_response, format='return_str', summary_len=summary_len)
         return response
 
-    def __format(self, text_response: str, format:Union['return_list','return_str','auto']='auto'):
+    def __format(self, text_response: str, format:Union['return_list','return_str','auto']='auto', summary_len=None):
         # extract the text from ChatGPT's response, and split it into lines
         response_lines: list[str] = text_response.split("\n")
 
         if format == 'return_str':
+            text_response = re.split(r'(?<=[.!?]) +', text_response)
+            text_response = " ".join(text_response[:summary_len])
             return text_response
 
         # If there's only one line, return it as a string
