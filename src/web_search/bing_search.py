@@ -6,8 +6,8 @@ bing_search_throttler = RequestThrottler("Bing")
 
 class Bing:
     def __init__(self):
-        self.key1 = "a545213acdb4407c9f3fffc6097f9b67"
-        self.key2 = "ebf8de5d4f9240ea9911a24d2c25d9d9"
+        self.key1 = "0000-0000"
+        self.key2 = "0000-0000"
         self.search_url = "https://api.bing.microsoft.com/v7.0/search"
         self.headers = {"Ocp-Apim-Subscription-Key": self.key1}
 

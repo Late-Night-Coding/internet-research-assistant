@@ -3,7 +3,7 @@ import time
 from async_util import get_event_loop
 from data.research_results import ResearchResults
 from data.search_history import SearchHistory
-from dummy_search_controller import get_dummy_search_controller
+from search_controller import SearchController
 import search_controller
 from flask import Flask, render_template, request, abort
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 # Change this for a real search vs a dummy search
 # searcher = search_controller.SearchController()
-searcher = get_dummy_search_controller()
+searcher = search_controller.SearchController()
 
 def get_results(query, summary_len: int, search_id=None) -> tuple[ResearchResults, SearchHistory]:
     start_time = time.time()

@@ -15,8 +15,8 @@ openai_throttler = RequestThrottler("OpenAI")
 
 class OpenAI:
     def __init__(self):
-        self.key = "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"
-        self.organization = "org-nVcfRvKHlZzuZmUk3kTRiXMP"
+        self.key = "0000-0000"
+        self.organization = "0000-0000"
         self.endpoint = "https://api.openai.com/v1/chat/completions"
 
     async def __request(self, messages):
